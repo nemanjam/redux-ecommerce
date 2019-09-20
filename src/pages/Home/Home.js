@@ -12,7 +12,7 @@ const Home = () => {
         <div className="row">
           <SortBy />
         </div>
-        <div className="row mt-5">
+        <div className="row list-margin-top">
           <Product />
           <Product />
           <Product />
