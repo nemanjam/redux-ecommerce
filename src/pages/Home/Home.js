@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../../components/Header';
 import Product from '../../components/Product';
+import Advertisement from '../../components/Advertisement';
 import SortBy from '../../components/SortBy';
 import './styles.css';
 
@@ -15,7 +16,7 @@ const Home = () => {
         <div className="row">
           <Product />
           <Product />
-          <Product />
+          <Advertisement />
           <Product />
           <Product />
           <Product />
