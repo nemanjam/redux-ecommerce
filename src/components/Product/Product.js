@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 
-const Product = () => {
+const Product = ({ name, price, image, shortDescription, description }) => {
   return (
     <Col xs={12} sm={6} lg={4} className="mb-3">
       <Card>
@@ -19,16 +19,15 @@ const Product = () => {
           </a>
         </Card.ImgOverlay>
         <Card.Body>
-          <h4 className="card-title">Vans Sk8-Hi MTE Shoes</h4>
-          <h6 className="card-subtitle mb-2 text-muted">Style: VA33TXRJ5</h6>
-          <Card.Text>
-            The Vans All-Weather MTE Collection features footwear and apparel
-            designed to withstand the elements whilst still looking cool.{' '}
-          </Card.Text>
+          <h4 className="card-title">{name}</h4>
+          <h6 className="card-subtitle mb-2 text-muted">
+            Style: {shortDescription}
+          </h6>
+          <Card.Text>{description}</Card.Text>
 
           <div className="buy d-flex justify-content-between align-items-center">
             <div className="price text-success">
-              <h5 className="mt-4">$125</h5>
+              <h5 className="mt-4">${price}</h5>
             </div>
             <Button variant="danger" className="mt-3">
               <i className="fa fa-shopping-cart"></i> Add to Cart
