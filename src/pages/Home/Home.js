@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import InfiniteScroll from 'react-infinite-scroller';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -14,38 +14,51 @@ import './styles.css';
 import { getProductsPromise } from '../../fakebackend/data';
 
 const Home = () => {
+  let productsCache = [];
   const [products, setProducts] = useState([]);
   useEffect(() => {
     (async () => {
       const _products = await getProductsPromise();
+      productsCache = await getProductsPromise();
       console.log(_products);
       setProducts(_products);
     })();
   }, []);
 
   async function fetchMoreData() {
-    let _products = await getProductsPromise();
-    _products = _products.concat(products);
+    const _products = products.concat(productsCache);
     setProducts(_products);
+    productsCache = await getProductsPromise();
   }
 
   if (products.length === 0)
-    return <Spinner animation="border" className="center-spinner" />;
+    return (
+      <>
+        <Header />
+        <Spinner animation="border" className="center-spinner" />
+      </>
+    );
 
   return (
     <>
       <Header />
       <Container className="list-margin-top">
         <InfiniteScroll
-          dataLength={products.length}
-          next={fetchMoreData}
-          hasMore={true}
-          loader={<Spinner animation="border" />}
           className="row"
+          pageStart={0}
+          loadMore={fetchMoreData}
+          hasMore={true}
+          loader={
+            <Col xs={12} sm={6} lg={4} className="container h-100">
+              <div className="row h-100 justify-content-center align-self-center">
+                <Spinner animation="border" key={0} />
+              </div>
+            </Col>
+          }
         >
           {products.map((product, i) =>
             i !== 0 && i % 4 === 0 ? (
-              <Advertisement />
+              <Advertisement key={i} />
             ) : (
               <Product {...product} key={product.id} />
             ),
