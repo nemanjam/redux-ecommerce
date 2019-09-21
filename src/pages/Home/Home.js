@@ -16,19 +16,29 @@ import { getProductsPromise } from '../../fakebackend/data';
 const Home = () => {
   let productsCache = useRef([]);
   const [products, setProducts] = useState([]);
+  const [isIdle, setIsIdle] = useState(false);
+
   useEffect(() => {
     (async () => {
       const _products = await getProductsPromise();
-      productsCache.current = await getProductsPromise();
-      console.log(_products);
       setProducts(_products);
+      setIsIdle(true);
     })();
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      if (isIdle) {
+        productsCache.current = await getProductsPromise();
+        setIsIdle(false);
+      }
+    })();
+  }, [isIdle]);
 
   async function fetchMoreData() {
     const _products = products.concat(productsCache.current);
     setProducts(_products);
-    productsCache.current = await getProductsPromise();
+    setIsIdle(true);
   }
 
   if (products.length === 0)
@@ -49,9 +59,9 @@ const Home = () => {
           loadMore={fetchMoreData}
           hasMore={true}
           loader={
-            <Col xs={12} sm={6} lg={4} key={0} className="container h-100">
-              <div className="row h-100 justify-content-center align-self-center">
-                <Spinner animation="border" />
+            <Col xs={12} sm={6} lg={4} key={0} className="container">
+              <div className="row h-100 justify-content-center align-self-center h-301">
+                <Spinner animation="border" className="align-self-center" />
               </div>
             </Col>
           }
