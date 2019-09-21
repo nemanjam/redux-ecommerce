@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Spinner from 'react-bootstrap/Spinner';
 
 import Header from '../../components/Header';
 import Product from '../../components/Product';
@@ -20,13 +23,26 @@ const Home = () => {
     })();
   }, []);
 
-  if (products.length === 0) return <div>Loading...</div>;
+  async function fetchMoreData() {
+    let _products = await getProductsPromise();
+    _products = _products.concat(products);
+    setProducts(_products);
+  }
+
+  if (products.length === 0)
+    return <Spinner animation="border" className="center-spinner" />;
 
   return (
     <>
       <Header />
       <Container className="list-margin-top">
-        <Row>
+        <InfiniteScroll
+          dataLength={products.length}
+          next={fetchMoreData}
+          hasMore={true}
+          loader={<Spinner animation="border" />}
+          className="row"
+        >
           {products.map((product, i) =>
             i !== 0 && i % 4 === 0 ? (
               <Advertisement />
@@ -34,7 +50,7 @@ const Home = () => {
               <Product {...product} key={product.id} />
             ),
           )}
-        </Row>
+        </InfiniteScroll>
       </Container>
     </>
   );

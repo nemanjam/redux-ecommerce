@@ -3,8 +3,11 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
+import Spinner from 'react-bootstrap/Spinner';
 
 const Product = ({ name, price, image, shortDescription, description }) => {
+  if (!name) return <Spinner animation="border" />;
+
   return (
     <Col xs={12} sm={6} lg={4} className="mb-3">
       <Card>

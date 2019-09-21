@@ -16,7 +16,7 @@ const products = _.times(10, index => ({
   description: faker.lorem.paragraph(),
 }));
 
-const getDataWithDelay = (data, delay = 1000) =>
+const getDataWithDelay = (data, delay = 3000) =>
   new Promise(resolveFn => setTimeout(resolveFn, delay, data));
 
 export const getProductsPromise = () => getDataWithDelay(products);
