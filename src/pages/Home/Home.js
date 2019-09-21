@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 
 import Container from 'react-bootstrap/Container';
@@ -14,21 +14,21 @@ import './styles.css';
 import { getProductsPromise } from '../../fakebackend/data';
 
 const Home = () => {
-  let productsCache = [];
+  let productsCache = useRef([]);
   const [products, setProducts] = useState([]);
   useEffect(() => {
     (async () => {
       const _products = await getProductsPromise();
-      productsCache = await getProductsPromise();
+      productsCache.current = await getProductsPromise();
       console.log(_products);
       setProducts(_products);
     })();
   }, []);
 
   async function fetchMoreData() {
-    const _products = products.concat(productsCache);
+    const _products = products.concat(productsCache.current);
     setProducts(_products);
-    productsCache = await getProductsPromise();
+    productsCache.current = await getProductsPromise();
   }
 
   if (products.length === 0)
@@ -49,9 +49,9 @@ const Home = () => {
           loadMore={fetchMoreData}
           hasMore={true}
           loader={
-            <Col xs={12} sm={6} lg={4} className="container h-100">
+            <Col xs={12} sm={6} lg={4} key={0} className="container h-100">
               <div className="row h-100 justify-content-center align-self-center">
-                <Spinner animation="border" key={0} />
+                <Spinner animation="border" />
               </div>
             </Col>
           }
@@ -60,7 +60,7 @@ const Home = () => {
             i !== 0 && i % 4 === 0 ? (
               <Advertisement key={i} />
             ) : (
-              <Product {...product} key={product.id} />
+              <Product {...product} key={i} />
             ),
           )}
         </InfiniteScroll>
