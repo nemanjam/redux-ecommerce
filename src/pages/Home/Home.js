@@ -1,27 +1,27 @@
 import React from 'react';
+
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+
 import Header from '../../components/Header';
 import Product from '../../components/Product';
 import Advertisement from '../../components/Advertisement';
-import SortBy from '../../components/SortBy';
 import './styles.css';
 
 const Home = () => {
   return (
     <>
       <Header />
-      <div className="container">
-        <div className="row">
-          <SortBy />
-        </div>
-        <div className="row">
+      <Container className="list-margin-top">
+        <Row>
           <Product />
           <Product />
           <Advertisement />
           <Product />
           <Product />
           <Product />
-        </div>
-      </div>
+        </Row>
+      </Container>
     </>
   );
 };
