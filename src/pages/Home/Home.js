@@ -6,7 +6,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Spinner from 'react-bootstrap/Spinner';
 
-import Header from '../../components/Header';
 import Product from '../../components/Product';
 import Advertisement from '../../components/Advertisement';
 import './styles.css';
@@ -82,14 +81,12 @@ const Home = () => {
   if (typeof products === 'undefined' || products.length === 0)
     return (
       <>
-        <Header />
         <Spinner animation="border" className="center-spinner" />
       </>
     );
 
   return (
     <>
-      <Header />
       <Container className="list-margin-top">
         <InfiniteScroll
           className="row"
