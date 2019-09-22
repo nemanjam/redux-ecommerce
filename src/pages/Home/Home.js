@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Spinner from 'react-bootstrap/Spinner';
@@ -87,29 +86,27 @@ const Home = () => {
 
   return (
     <>
-      <Container className="list-margin-top">
-        <InfiniteScroll
-          className="row"
-          pageStart={0}
-          loadMore={fetchMoreData}
-          hasMore={true}
-          loader={
-            <Col xs={12} sm={6} lg={4} key={0} className="container">
-              <div className="row h-100 justify-content-center align-self-center h-301">
-                <Spinner animation="border" className="align-self-center" />
-              </div>
-            </Col>
-          }
-        >
-          {products.map((product, i) =>
-            product.isAdvert ? (
-              <Advertisement {...product} key={i} />
-            ) : (
-              <Product {...product} key={i} />
-            ),
-          )}
-        </InfiniteScroll>
-      </Container>
+      <InfiniteScroll
+        className="row"
+        pageStart={0}
+        loadMore={fetchMoreData}
+        hasMore={true}
+        loader={
+          <Col xs={12} sm={6} lg={4} key={0} className="container">
+            <div className="row h-100 justify-content-center align-self-center h-301">
+              <Spinner animation="border" className="align-self-center" />
+            </div>
+          </Col>
+        }
+      >
+        {products.map((product, i) =>
+          product.isAdvert ? (
+            <Advertisement {...product} key={i} />
+          ) : (
+            <Product {...product} key={i} />
+          ),
+        )}
+      </InfiniteScroll>
     </>
   );
 };

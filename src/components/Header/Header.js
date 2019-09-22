@@ -8,7 +8,8 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 
 const Header = props => {
-  console.log(props);
+  const { pathname } = props.location;
+  console.log(pathname);
   return (
     <Navbar
       collapseOnSelect
@@ -18,14 +19,13 @@ const Header = props => {
       fixed="top"
     >
       <Container>
-        <Navbar.Brand href="/">Eshop-Page</Navbar.Brand>
+        <Navbar.Brand href="/home">Eshop-Page</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mr-auto" activeKey={props.location.pathname}>
-            <LinkContainer to="/">
+          <Nav className="mr-auto" activeKey={pathname}>
+            <LinkContainer to="/home">
               <Nav.Link>Home</Nav.Link>
             </LinkContainer>
-
             <NavDropdown title="Sort by" id="collasible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">ID</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Size</NavDropdown.Item>
@@ -34,7 +34,7 @@ const Header = props => {
             </NavDropdown>
             <Nav.Link>Liked</Nav.Link>
           </Nav>
-          <Nav activeKey={props.location.pathname}>
+          <Nav activeKey={pathname}>
             <LinkContainer to="/cart">
               <Nav.Link>Cart</Nav.Link>
             </LinkContainer>

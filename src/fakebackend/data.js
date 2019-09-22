@@ -1,12 +1,6 @@
 import faker from 'faker';
 import _ from 'lodash';
 
-/*
-const getData = id => Promise.resolve({ some: 'data' });
-const sleep = t => new Promise(r => setTimeout(r, t));
-await sleep(t);
-*/
-
 const products = _.times(10, index => ({
   id: index,
   isAdvert: false,

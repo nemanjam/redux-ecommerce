@@ -1,11 +1,11 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
 const Context = createContext({
-  currentUser: null,
+  productsInTheCart: [],
+  likedProducts: [],
+  sortBy: 'none',
   isAuth: false,
-  draft: null,
-  pins: [],
-  currentPin: null
+  currentUser: null,
 });
 
 export default Context;
