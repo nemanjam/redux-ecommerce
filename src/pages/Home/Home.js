@@ -12,6 +12,7 @@ import Advertisement from '../../components/Advertisement';
 import './styles.css';
 
 import { getProductsPromise } from '../../fakebackend/data';
+import { getAdvertisementsPromise } from '../../fakebackend/data';
 
 const Home = () => {
   let productsCache = useRef([]);
@@ -21,7 +22,7 @@ const Home = () => {
   useEffect(() => {
     (async () => {
       const _products = await getProductsPromise();
-      setProducts(_products);
+      await insertAdvert(_products);
       setIsIdle(true);
     })();
   }, []);
@@ -35,13 +36,35 @@ const Home = () => {
     })();
   }, [isIdle]);
 
+  async function insertAdvert(productsState) {
+    let advertIndex = 0;
+    const adverts = await getAdvertisementsPromise();
+    const justProducts = productsState.filter(product => !product.isAdvert);
+    justProducts.map((product, i) => {
+      if (i !== 0 && i % 4 === 0) {
+        while (
+          adverts.length > advertIndex + 1 &&
+          adverts[advertIndex].id === adverts[advertIndex + 1].id
+        )
+          advertIndex++;
+
+        console.log(i);
+        justProducts.splice(i, 0, adverts[advertIndex]);
+        if (adverts.length <= advertIndex + 1) advertIndex = 0;
+        else advertIndex++;
+      }
+    });
+    console.log(justProducts);
+    setProducts([...justProducts]);
+  }
+
   async function fetchMoreData() {
     const _products = products.concat(productsCache.current);
-    setProducts(_products);
+    await insertAdvert(_products);
     setIsIdle(true);
   }
 
-  if (products.length === 0)
+  if (typeof products === 'undefined' || products.length === 0)
     return (
       <>
         <Header />
@@ -67,8 +90,8 @@ const Home = () => {
           }
         >
           {products.map((product, i) =>
-            i !== 0 && i % 4 === 0 ? (
-              <Advertisement key={i} />
+            product.isAdvert ? (
+              <Advertisement {...product} key={i} />
             ) : (
               <Product {...product} key={i} />
             ),
