@@ -17,10 +17,14 @@ import { getAdvertisementsPromise } from '../../fakebackend/data';
 const Home = () => {
   let productsCache = useRef([]);
   const [products, setProducts] = useState([]);
+  const [adverts, setAdverts] = useState([]);
   const [isIdle, setIsIdle] = useState(false);
 
   useEffect(() => {
     (async () => {
+      const _adverts = await getAdvertisementsPromise();
+      setAdverts(_adverts); //_adverts is not empty
+      console.log(adverts); //adverts is empty [] ???
       const _products = await getProductsPromise();
       await insertAdvert(_products);
       setIsIdle(true);
@@ -38,28 +42,30 @@ const Home = () => {
 
   async function insertAdvert(productsState) {
     let advertIndex = 0;
-    const adverts = await getAdvertisementsPromise();
     const justProducts = productsState.filter(product => !product.isAdvert);
-    justProducts.map((product, i) => {
-      if (i !== 0 && i % 4 === 0) {
-        while (
-          adverts.length > advertIndex + 1 &&
-          adverts[advertIndex].id === adverts[advertIndex + 1].id
-        )
-          advertIndex++;
+    let resultArr = [];
 
-        console.log(i);
-        justProducts.splice(i, 0, adverts[advertIndex]);
-        if (adverts.length <= advertIndex + 1) advertIndex = 0;
-        else advertIndex++;
-      }
-    });
-    console.log(justProducts);
-    setProducts([...justProducts]);
+    while (justProducts.length > 0) {
+      // 2 same adds in the row
+      while (
+        adverts.length > advertIndex + 1 &&
+        adverts[advertIndex].id === adverts[advertIndex + 1].id
+      )
+        advertIndex++;
+      // 0,1,2..9,0,1,2
+      adverts.length <= advertIndex + 1 ? (advertIndex = 0) : advertIndex++;
+
+      //index is calculated
+      resultArr = resultArr.concat(justProducts.splice(0, 4), [
+        adverts[advertIndex],
+      ]);
+    }
+    console.log(resultArr);
+    setProducts(resultArr);
   }
 
   async function fetchMoreData() {
-    const _products = products.concat(productsCache.current);
+    const _products = products.concat([...productsCache.current]);
     await insertAdvert(_products);
     setIsIdle(true);
   }
