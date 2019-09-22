@@ -20,16 +20,24 @@ const Home = () => {
   const [adverts, setAdverts] = useState([]);
   const [isIdle, setIsIdle] = useState(false);
 
+  // did mount
   useEffect(() => {
     (async () => {
       const _adverts = await getAdvertisementsPromise();
-      setAdverts(_adverts); //_adverts is not empty
-      console.log(adverts); //adverts is empty [] ???
-      const _products = await getProductsPromise();
-      await insertAdvert(_products);
-      setIsIdle(true);
+      setAdverts(_adverts);
     })();
   }, []);
+
+  //adverts loaded
+  useEffect(() => {
+    (async () => {
+      if (adverts.length > 0) {
+        const _products = await getProductsPromise();
+        await insertAdvert(_products);
+        setIsIdle(true);
+      }
+    })();
+  }, [adverts]);
 
   useEffect(() => {
     (async () => {
@@ -41,6 +49,7 @@ const Home = () => {
   }, [isIdle]);
 
   async function insertAdvert(productsState) {
+    const size = 4;
     let advertIndex = 0;
     const justProducts = productsState.filter(product => !product.isAdvert);
     let resultArr = [];
@@ -56,9 +65,9 @@ const Home = () => {
       adverts.length <= advertIndex + 1 ? (advertIndex = 0) : advertIndex++;
 
       //index is calculated
-      resultArr = resultArr.concat(justProducts.splice(0, 4), [
-        adverts[advertIndex],
-      ]);
+      const chunk = justProducts.splice(0, size);
+      if (chunk.length === size)
+        resultArr = resultArr.concat(chunk, [adverts[advertIndex]]);
     }
     console.log(resultArr);
     setProducts(resultArr);
