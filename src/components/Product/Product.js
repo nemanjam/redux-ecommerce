@@ -45,7 +45,7 @@ const Product = ({ name, price, image, shortDescription, description }) => {
         <Card>
           <Card.Img
             variant="top"
-            src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/vans.png"
+            src={require(`../../static/products/${image}`)}
             alt="Vans"
             onLoad={imageLoaded}
           />

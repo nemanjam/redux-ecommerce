@@ -33,7 +33,7 @@ const Root = () => {
             <Route path="/products" exact component={Products} />
             <Route path="/cart" component={Cart} />
             <Route path="/login" component={Login} />
-            <Redirect to="/home" />
+            {/* <Redirect to="/home" /> */}
           </Switch>
         </Container>
       </Context.Provider>

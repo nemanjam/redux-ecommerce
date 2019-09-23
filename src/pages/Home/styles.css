@@ -1,14 +1,30 @@
-.list-margin-top {
-  margin-top: 70px;
+.bg-image-div {
+  background-image: url('https://i.ytimg.com/vi/nweCoIkWFcc/maxresdefault.jpg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  min-height: 600px;
+  width: 100%;
+  /* background-color: #00ff00; */
 }
 
-.center-spinner {
-  margin: auto;
+.img-obj-fit {
+  object-fit: cover;
+  /* object-position: 100% 0; */
+  /* width: 100%; */
+  height: 600px;
+}
+
+.overlay {
   position: absolute;
-  top: 50%;
-  left: 50%;
-}
-
-.h-301 {
-  min-height: 300px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background-attachment: fixed;
+  background-color: #080d15;
+  opacity: 0.5;
 }

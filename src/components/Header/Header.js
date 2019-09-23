@@ -10,7 +10,6 @@ import Badge from 'react-bootstrap/Badge';
 
 const Header = props => {
   const { pathname } = props.location;
-  console.log(pathname);
   return (
     <Navbar
       collapseOnSelect
@@ -31,7 +30,7 @@ const Header = props => {
               <Nav.Link>Products</Nav.Link>
             </LinkContainer>
             <NavDropdown title="Sort by" id="collasible-nav-dropdown">
-              <NavDropdown.Item>Color</NavDropdown.Item>
+              <NavDropdown.Item>Weight</NavDropdown.Item>
               <NavDropdown.Item>Size</NavDropdown.Item>
               <NavDropdown.Item>Price</NavDropdown.Item>
               <NavDropdown.Item>None</NavDropdown.Item>
@@ -39,9 +38,9 @@ const Header = props => {
             <NavDropdown title="Filter by" id="collasible-nav-dropdown">
               <NavDropdown.Item>Rapala</NavDropdown.Item>
               <NavDropdown.Item>Heddon</NavDropdown.Item>
-              <NavDropdown.Item>Mann's</NavDropdown.Item>
+              <NavDropdown.Item>Cotton Cordel</NavDropdown.Item>
               <NavDropdown.Item>Rebel</NavDropdown.Item>
-              <NavDropdown.Item>Bomber</NavDropdown.Item>
+              <NavDropdown.Item>Mepps</NavDropdown.Item>
             </NavDropdown>
             <Nav.Link>
               Liked{' '}
