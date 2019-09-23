@@ -47,7 +47,7 @@ const Products = () => {
   }, [isIdle]);
 
   async function insertAdvert(productsState) {
-    const size = 4;
+    const size = 5;
     let advertIndex = 0;
     const justProducts = productsState.filter(product => !product.isAdvert);
     let resultArr = [];
