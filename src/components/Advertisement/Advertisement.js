@@ -24,6 +24,7 @@ const Advertisement = ({ name, image, description, link1, link2, time }) => {
         xs={12}
         sm={6}
         lg={4}
+        xl={3}
         key={0}
         className="container"
         style={{ display: isLoading ? 'block' : 'none' }}
@@ -37,6 +38,7 @@ const Advertisement = ({ name, image, description, link1, link2, time }) => {
         xs={12}
         sm={6}
         lg={4}
+        xl={3}
         className="mb-3"
         style={{ display: isLoading ? 'none' : 'block' }}
       >

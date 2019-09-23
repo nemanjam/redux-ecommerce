@@ -24,6 +24,7 @@ const Product = ({ name, price, image, shortDescription, description }) => {
         xs={12}
         sm={6}
         lg={4}
+        xl={3}
         key={0}
         className="container"
         style={{ display: isLoading ? 'block' : 'none' }}
@@ -36,6 +37,7 @@ const Product = ({ name, price, image, shortDescription, description }) => {
       <Col
         xs={12}
         sm={6}
+        xl={3}
         lg={4}
         className="mb-3"
         style={{ display: isLoading ? 'none' : 'block' }}
@@ -48,9 +50,9 @@ const Product = ({ name, price, image, shortDescription, description }) => {
             onLoad={imageLoaded}
           />
           <Card.ImgOverlay className="d-flex justify-content-end">
-            <a href="#" className="card-link text-danger like">
+            <span className="card-link text-danger like">
               <i className="fa fa-heart"></i>
-            </a>
+            </span>
           </Card.ImgOverlay>
           <Card.Body>
             <h4 className="card-title">{name}</h4>

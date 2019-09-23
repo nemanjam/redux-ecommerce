@@ -1,9 +1,15 @@
 import React, { useContext, useReducer } from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 
 import Home from './pages/Home';
+import Products from './pages/Products';
 import Cart from './pages/Cart';
 import Login from './pages/Login/Login';
 import Header from './components/Header';
@@ -24,8 +30,10 @@ const Root = () => {
         <Container className="margin-top">
           <Switch>
             <Route path="/home" exact component={Home} />
+            <Route path="/products" exact component={Products} />
             <Route path="/cart" component={Cart} />
             <Route path="/login" component={Login} />
+            <Redirect to="/home" />
           </Switch>
         </Container>
       </Context.Provider>

@@ -6,6 +6,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
+import Badge from 'react-bootstrap/Badge';
 
 const Header = props => {
   const { pathname } = props.location;
@@ -26,17 +27,37 @@ const Header = props => {
             <LinkContainer to="/home">
               <Nav.Link>Home</Nav.Link>
             </LinkContainer>
+            <LinkContainer to="/products">
+              <Nav.Link>Products</Nav.Link>
+            </LinkContainer>
             <NavDropdown title="Sort by" id="collasible-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">ID</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Size</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Price</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.4">None</NavDropdown.Item>
+              <NavDropdown.Item>Color</NavDropdown.Item>
+              <NavDropdown.Item>Size</NavDropdown.Item>
+              <NavDropdown.Item>Price</NavDropdown.Item>
+              <NavDropdown.Item>None</NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link>Liked</Nav.Link>
+            <NavDropdown title="Filter by" id="collasible-nav-dropdown">
+              <NavDropdown.Item>Rapala</NavDropdown.Item>
+              <NavDropdown.Item>Heddon</NavDropdown.Item>
+              <NavDropdown.Item>Mann's</NavDropdown.Item>
+              <NavDropdown.Item>Rebel</NavDropdown.Item>
+              <NavDropdown.Item>Bomber</NavDropdown.Item>
+            </NavDropdown>
+            <Nav.Link>
+              Liked{' '}
+              <Badge pill variant="light">
+                2
+              </Badge>
+            </Nav.Link>
           </Nav>
           <Nav activeKey={pathname}>
             <LinkContainer to="/cart">
-              <Nav.Link>Cart</Nav.Link>
+              <Nav.Link>
+                Cart <i className="fa fa-shopping-cart"></i>{' '}
+                <Badge pill variant="danger">
+                  3
+                </Badge>
+              </Nav.Link>
             </LinkContainer>
             <LinkContainer to="/login">
               <Nav.Link>Login</Nav.Link>
