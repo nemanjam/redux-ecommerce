@@ -16,7 +16,7 @@ const ProductDetails = () => {
                 <a href="images/items/1.jpg" data-fancybox="">
                   <img
                     style={{ width: '100%', height: '100%' }}
-                    src={require(`../../static/products/rapala15.jpg`)}
+                    src={require(`../../static/products/mepps1.jpg`)}
                   />
                 </a>
               </div>
@@ -30,7 +30,7 @@ const ProductDetails = () => {
             </h3>
 
             <div className="mb-3">
-              <var className="price h3">
+              <var className="price h3 text-success">
                 <span className="currency">US $</span>
                 <span className="num">1299</span>
               </var>

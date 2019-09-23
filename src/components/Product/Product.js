@@ -64,7 +64,7 @@ const Product = ({ name, price, image, shortDescription, description }) => {
               <div className="price text-success">
                 <h5 className="mt-4">${price}</h5>
               </div>
-              <Button variant="danger" className="mt-3">
+              <Button variant="primary" className="mt-3">
                 <i className="fa fa-shopping-cart"></i> Add to Cart
               </Button>
             </div>

@@ -11,7 +11,7 @@ const brandAndImage = _.flatten(
   }),
 );
 
-const products = _.times(20, index => ({
+const products = _.times(100, index => ({
   id: index,
   isAdvert: false,
   name: faker.commerce.productName(),
@@ -23,7 +23,7 @@ const products = _.times(20, index => ({
   weight: faker.random.number(),
   shortDescription: faker.lorem.words(),
   description: faker.lorem.paragraph(),
-}));
+})).sort((a, b) => 0.5 - Math.random());
 
 /*
 const products = [
@@ -54,7 +54,7 @@ const advertisements = _.times(10, index => ({
   time: faker.date.recent(),
 }));
 
-const getDataWithDelay = (data, delay = 1000) =>
+const getDataWithDelay = (data, delay = 0) =>
   new Promise(resolveFn => setTimeout(resolveFn, delay, data));
 
 export const getProductsPromise = () => getDataWithDelay(products);
