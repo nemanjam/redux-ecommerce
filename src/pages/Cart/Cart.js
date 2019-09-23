@@ -141,7 +141,7 @@ const Cart = () => {
             </div>
           </div>
           <div className="pull-right" style={{ margin: 10 }}>
-            <a href="" className="btn btn-success pull-right">
+            <a href="" className="btn btn-primary pull-right">
               Checkout
             </a>
             <div className="pull-right" style={{ margin: 5 }}>

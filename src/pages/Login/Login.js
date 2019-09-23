@@ -18,7 +18,7 @@ const Login = () => {
             <p>
               <a href="" className="btn btn-block btn-outline-primary">
                 {' '}
-                <i className="fa fa-google"></i>   Login via Google
+                <i className="fa fa-google"></i>   Login with Google
               </a>
             </p>
             <hr />

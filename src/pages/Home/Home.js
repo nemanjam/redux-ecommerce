@@ -16,7 +16,6 @@ const Home = () => {
     setIndex(selectedIndex);
     setDirection(e.direction);
   };
-  const image1 = require('../../static/products/rapala1.jpg');
 
   return (
     <>

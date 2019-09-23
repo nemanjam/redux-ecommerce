@@ -4,6 +4,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Spinner from 'react-bootstrap/Spinner';
+import { Link } from 'react-router-dom';
 
 import './styles.css';
 
@@ -43,17 +44,15 @@ const Product = ({ name, price, image, shortDescription, description }) => {
         style={{ display: isLoading ? 'none' : 'block' }}
       >
         <Card>
-          <Card.Img
-            variant="top"
-            src={require(`../../static/products/${image}`)}
-            alt="Vans"
-            onLoad={imageLoaded}
-          />
-          <Card.ImgOverlay className="d-flex justify-content-end">
-            <span className="card-link text-danger like">
-              <i className="fa fa-heart"></i>
-            </span>
-          </Card.ImgOverlay>
+          <i className="fa fa-heart text-danger like"></i>
+          <Link to="/product-details">
+            <Card.Img
+              variant="top"
+              src={require(`../../static/products/${image}`)}
+              alt="Vans"
+              onLoad={imageLoaded}
+            />
+          </Link>
           <Card.Body>
             <h4 className="card-title">{name}</h4>
             <h6 className="card-subtitle mb-2 text-muted">

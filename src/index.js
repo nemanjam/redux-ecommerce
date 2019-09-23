@@ -12,6 +12,7 @@ import Home from './pages/Home';
 import Products from './pages/Products';
 import Cart from './pages/Cart';
 import Login from './pages/Login/Login';
+import ProductDetails from './pages/ProductDetails';
 import Header from './components/Header';
 import Context from './context';
 import reducer from './reducer';
@@ -31,6 +32,7 @@ const Root = () => {
           <Switch>
             <Route path="/home" exact component={Home} />
             <Route path="/products" exact component={Products} />
+            <Route path="/product-details" exact component={ProductDetails} />
             <Route path="/cart" component={Cart} />
             <Route path="/login" component={Login} />
             {/* <Redirect to="/home" /> */}
