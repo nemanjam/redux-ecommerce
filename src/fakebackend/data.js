@@ -11,7 +11,7 @@ const brandAndImage = _.flatten(
   }),
 );
 
-const products = _.times(10, index => ({
+let products = _.times(100, index => ({
   id: index,
   isAdvert: false,
   name: faker.commerce.productName(),
@@ -25,24 +25,6 @@ const products = _.times(10, index => ({
   description: faker.lorem.paragraph(),
 })).sort((a, b) => 0.5 - Math.random());
 
-/*
-const products = [
-  {
-    id: 0,
-    isAdvert: false,
-    name: faker.commerce.productName(),
-    price: faker.commerce.price(),
-    brand: 'rapala',
-    image: 'rapala1.jpg',
-    color: 'yellow',
-    size: faker.random.number(),
-    weight: faker.random.number(),
-    shortDescription: faker.lorem.words(),
-    description: faker.lorem.paragraph(),
-  },
-];
-*/
-
 const advertisements = _.times(10, index => ({
   id: index,
   isAdvert: true,
@@ -54,8 +36,29 @@ const advertisements = _.times(10, index => ({
   time: faker.date.recent(),
 }));
 
-const getDataWithDelay = (data, delay = 3000) =>
+const getDataWithDelay = (data, delay = 0) =>
   new Promise(resolveFn => setTimeout(resolveFn, delay, data));
 
-export const getProductsPromise = () => getDataWithDelay(products);
+export const getProductsPromise = params => {
+  params = { page: { index: 0, size: 15 }, brand: 'mepps', sort: 'price' };
+  if ('page' in params) {
+    products = products.slice(params.page.index, params.page.size);
+  }
+
+  if ('brand' in params)
+    products = products.filter(product => product.brand === params.brand);
+
+  if ('sort' in params) {
+    function compare(a, b) {
+      if (a[params.sort] < b[params.sort]) return -1;
+      if (a[params.sort] > b[params.sort]) return 1;
+      return 0;
+    }
+    products = products.sort(compare);
+  }
+
+  return getDataWithDelay(products);
+};
 export const getAdvertisementsPromise = () => getDataWithDelay(advertisements);
+
+//const myArg = "lol"; ary.sort((a,b) => a[myArg]...)

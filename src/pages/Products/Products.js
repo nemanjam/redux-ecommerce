@@ -16,14 +16,12 @@ const Products = ({ isLoading, products, loadProducts }) => {
   // did mount
   useEffect(() => {
     (async () => {
-      loadProducts(false);
+      loadProducts(null, false);
     })();
   }, []);
 
   function fetchMoreData(pageStart) {
-    // skip the first load, its called in componentDidMount already
-    if (pageStart > 1) loadProducts(true);
-    console.log(pageStart);
+    if (pageStart > 1) loadProducts(null, true);
   }
 
   if (isLoading)
@@ -34,6 +32,7 @@ const Products = ({ isLoading, products, loadProducts }) => {
     );
 
   console.log(products);
+  //hasMore prop has to be set false when there are no more filtered items, server must return that
   return (
     <>
       <InfiniteScroll

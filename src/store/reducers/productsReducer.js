@@ -17,26 +17,26 @@ const productsReducer = (state = initialState, { type, payload }) => {
     case Types.LOAD_PRODUCTS_ERROR:
       return {
         ...state,
-        loading: false,
+        isLoading: false,
         error: payload,
       };
     case Types.LOAD_PRODUCTS_SUCCESS:
       return {
         ...state,
-        loading: false,
+        isLoading: false,
         error: null,
         products: payload,
       };
     case Types.LOAD_MORE_PRODUCTS_ERROR:
       return {
         ...state,
-        loading: false,
+        isLoading: false,
         error: payload,
       };
     case Types.LOAD_MORE_PRODUCTS_SUCCESS:
       return {
         ...state,
-        loading: false,
+        isLoading: false,
         error: null,
         products: payload,
       };

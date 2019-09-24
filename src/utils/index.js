@@ -3,6 +3,8 @@ export const insertAdvert = (products, adverts, insertAtIndex) => {
   let resultArr = [];
   const justProducts = products.filter(product => !product.isAdvert);
 
+  if (justProducts.length <= insertAtIndex) return justProducts;
+
   while (justProducts.length > 0) {
     // 2 same adds in the row
     while (
