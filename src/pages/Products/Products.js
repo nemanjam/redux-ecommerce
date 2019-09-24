@@ -14,7 +14,7 @@ import { getProductsPromise } from '../../fakebackend/data';
 import { getAdvertisementsPromise } from '../../fakebackend/data';
 import { loadProducts, loadMoreProducts } from '../../store/actions/products';
 
-const Products = ({ isLoading, products, loadProducts, loadMoreProducts }) => {
+const Products = ({ isLoading, products, loadProducts }) => {
   let productsCache = useRef([]);
   // const [products, setProducts] = useState([]);
   const [adverts, setAdverts] = useState([]);
@@ -23,9 +23,7 @@ const Products = ({ isLoading, products, loadProducts, loadMoreProducts }) => {
   // did mount
   useEffect(() => {
     (async () => {
-      // const _adverts = await getAdvertisementsPromise();
-      // setAdverts(_adverts);
-      loadProducts();
+      loadProducts(false);
     })();
   }, []);
 
@@ -33,8 +31,6 @@ const Products = ({ isLoading, products, loadProducts, loadMoreProducts }) => {
   useEffect(() => {
     (async () => {
       if (adverts.length > 0) {
-        const _products = await getProductsPromise();
-        await insertAdvert(_products);
         setIsIdle(true);
       }
     })();
@@ -49,34 +45,9 @@ const Products = ({ isLoading, products, loadProducts, loadMoreProducts }) => {
     })();
   }, [isIdle]);
 
-  async function insertAdvert(productsState) {
-    const size = 5;
-    let advertIndex = 0;
-    const justProducts = productsState.filter(product => !product.isAdvert);
-    let resultArr = [];
-
-    while (justProducts.length > 0) {
-      // 2 same adds in the row
-      while (
-        adverts.length > advertIndex + 1 &&
-        adverts[advertIndex].id === adverts[advertIndex + 1].id
-      )
-        advertIndex++;
-      // 0,1,2..9,0,1,2
-      adverts.length <= advertIndex + 1 ? (advertIndex = 0) : advertIndex++;
-
-      //index is calculated
-      const chunk = justProducts.splice(0, size);
-      if (chunk.length === size)
-        resultArr = resultArr.concat(chunk, [adverts[advertIndex]]);
-    }
-    console.log(resultArr);
-    //setProducts(resultArr);
-  }
-
   function fetchMoreData(pageStart) {
-    //skip the first load, its called in componentDidMount already
-    if (pageStart > 1) loadMoreProducts();
+    // skip the first load, its called in componentDidMount already
+    if (pageStart > 1) loadProducts(true);
     console.log(pageStart);
   }
 
@@ -113,5 +84,5 @@ const Products = ({ isLoading, products, loadProducts, loadMoreProducts }) => {
 
 export default connect(
   state => ({ products: state.productsReducer.products }),
-  { loadProducts, loadMoreProducts },
+  { loadProducts },
 )(Products);
