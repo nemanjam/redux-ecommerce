@@ -1,11 +1,17 @@
 import React, { useContext, useReducer } from 'react';
 import ReactDOM from 'react-dom';
+import * as serviceWorker from './serviceWorker';
 import {
   BrowserRouter as Router,
   Route,
   Switch,
   Redirect,
 } from 'react-router-dom';
+
+import { compose, createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+
 import Container from 'react-bootstrap/Container';
 
 import Home from './pages/Home';
@@ -14,19 +20,26 @@ import Cart from './pages/Cart';
 import Login from './pages/Login/Login';
 import ProductDetails from './pages/ProductDetails';
 import Header from './components/Header';
-import Context from './context';
-import reducer from './reducer';
+import rootReducer from './store/reducers';
 
 import './index.css';
-import * as serviceWorker from './serviceWorker';
 
 const Root = () => {
-  const initialState = useContext(Context);
-  const [state, dispatch] = useReducer(reducer, initialState);
+  //
+  const initialState = {};
 
+  const store = createStore(
+    rootReducer,
+    initialState,
+    compose(
+      applyMiddleware(thunk),
+      window.__REDUX_DEVTOOLS_EXTENSION__ &&
+        window.__REDUX_DEVTOOLS_EXTENSION__(),
+    ),
+  );
   return (
     <Router>
-      <Context.Provider value={{ state, dispatch }}>
+      <Provider store={store}>
         <Header />
         <Container className="margin-top">
           <Switch>
@@ -35,10 +48,12 @@ const Root = () => {
             <Route path="/product-details" exact component={ProductDetails} />
             <Route path="/cart" component={Cart} />
             <Route path="/login" component={Login} />
-            {/* <Redirect to="/home" /> */}
+            <Route exact path="/">
+              <Redirect to="/home" />
+            </Route>
           </Switch>
         </Container>
-      </Context.Provider>
+      </Provider>
     </Router>
   );
 };
