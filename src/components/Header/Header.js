@@ -9,11 +9,11 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Badge from 'react-bootstrap/Badge';
 
-import { setSortBy, setFilterBy } from '../../store/actions/header';
-import { loadProducts } from '../../store/actions/products';
+import { setSortBy } from '../../store/actions/header';
+import { loadProducts, sortProducts } from '../../store/actions/products';
 import { config } from '../../services/config';
 
-const Header = ({ location, setSortBy, setFilterBy, header, loadProducts }) => {
+const Header = ({ location, sortProducts, header, loadProducts }) => {
   const { pathname } = location;
 
   function setFilterClick(filter) {
@@ -23,8 +23,8 @@ const Header = ({ location, setSortBy, setFilterBy, header, loadProducts }) => {
     );
   }
 
-  function setSortClick(sort) {
-    setSortBy(sort);
+  function setSortClick(sortBy) {
+    sortProducts(sortBy);
   }
 
   return (
@@ -109,5 +109,5 @@ const Header = ({ location, setSortBy, setFilterBy, header, loadProducts }) => {
 };
 export default connect(
   state => ({ header: state.headerReducer }),
-  { setSortBy, setFilterBy, loadProducts },
+  { setSortBy, loadProducts, sortProducts },
 )(withRouter(Header));

@@ -40,6 +40,11 @@ const productsReducer = (state = initialState, { type, payload }) => {
         error: null,
         products: payload,
       };
+    case Types.SORT_PRODUCTS_SUCCESS:
+      return {
+        ...state,
+        products: payload,
+      };
     default:
       return state;
   }

@@ -51,6 +51,28 @@ export const loadProducts = (params, isLoadMoreRequest) => async (
   dispatch(loadProductsSuccess(isLoadMoreRequest, productsWithAdverts));
 };
 
+export const sortProductsSuccess = products => ({
+  type: Types.SORT_PRODUCTS_SUCCESS,
+  payload: products,
+});
+
+export const sortProducts = sortBy => (dispatch, getState) => {
+  if (sortBy && sortBy !== 'none') {
+    function compare(a, b) {
+      if (a[sortBy] < b[sortBy]) return -1;
+      if (a[sortBy] > b[sortBy]) return 1;
+      return 0;
+    }
+    const sortedProducts = getState()
+      .productsReducer.products.slice()
+      .filter(product => !product.isAdvert)
+      .sort(compare);
+    console.log(sortedProducts.map(p => p[sortBy]));
+    const productsWithAdverts = insertAdvert(sortedProducts, adverts, 5);
+    dispatch(sortProductsSuccess(productsWithAdverts));
+  }
+};
+
 /*
 export const loadProducts = (params, isLoadMoreRequest) => async (
   dispatch,

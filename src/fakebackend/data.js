@@ -16,7 +16,7 @@ const getProducts = () => {
     id: index,
     isAdvert: false,
     name: faker.commerce.productName(),
-    price: faker.commerce.price(),
+    price: parseFloat(faker.commerce.price()),
     brand: brandAndImage[index].brand,
     image: brandAndImage[index].image,
     color: faker.commerce.color(),
