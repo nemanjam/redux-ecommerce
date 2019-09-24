@@ -1,4 +1,4 @@
-import * as endpoints from './endpoints';
+import * as endpoints from './config';
 
 const API = ({ config, params }) => {
   let _config = config || {},
@@ -9,7 +9,7 @@ const API = ({ config, params }) => {
     };
 
   return fetch(
-    `${endpoints.api.baseURL}${endpoints.api.products}`,
+    `${endpoints.config.baseURL}${endpoints.config.products}`,
     header,
   ).then(response => response.json());
 };

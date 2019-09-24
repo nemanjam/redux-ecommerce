@@ -11,17 +11,25 @@ import Advertisement from '../../components/Advertisement';
 import './styles.css';
 
 import { loadProducts } from '../../store/actions/products';
+import { config } from '../../services/config';
 
 const Products = ({ isLoading, products, loadProducts }) => {
   // did mount
   useEffect(() => {
     (async () => {
-      loadProducts(null, false);
+      loadProducts(
+        {
+          page: { index: 0, size: config.pageSize },
+          sort: 'none',
+          filter: 'none',
+        },
+        false,
+      );
     })();
   }, []);
 
   function fetchMoreData(pageStart) {
-    if (pageStart > 1) loadProducts(null, true);
+    //if (pageStart > 1) loadProducts(null, true);
   }
 
   if (isLoading)
@@ -61,6 +69,8 @@ const Products = ({ isLoading, products, loadProducts }) => {
 };
 
 export default connect(
-  state => ({ products: state.productsReducer.products }),
+  state => ({
+    products: state.productsReducer.products,
+  }),
   { loadProducts },
 )(Products);

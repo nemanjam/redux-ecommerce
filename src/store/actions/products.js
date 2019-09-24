@@ -34,16 +34,23 @@ export const loadProducts = (params, isLoadMoreRequest) => async (
 ) => {
   dispatch(loadProductsInit(isLoadMoreRequest));
 
+  let moreProducts = [];
   if (!isLoadMoreRequest) {
-    //first time
     adverts = await getAdvertisementsPromise();
   }
-  const products = await getProductsPromise();
-  const moreProducts = [...getState().productsReducer.products, ...products];
-  const productsWithAdverts = insertAdvert(moreProducts, adverts, 5);
+  const products = await getProductsPromise(params);
 
-  dispatch(loadProductsSuccess(isLoadMoreRequest, productsWithAdverts)); // dispatch action before fetching in cache
+  if (!isLoadMoreRequest && params && params.filter !== 'none') {
+    moreProducts = [...products];
+  } else {
+    //load more
+    moreProducts = [...getState().productsReducer.products, ...products];
+  }
+
+  const productsWithAdverts = insertAdvert(moreProducts, adverts, 5);
+  dispatch(loadProductsSuccess(isLoadMoreRequest, productsWithAdverts));
 };
+
 /*
 export const loadProducts = (params, isLoadMoreRequest) => async (
   dispatch,
