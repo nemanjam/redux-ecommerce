@@ -23,8 +23,8 @@ const Header = ({ location, sortProducts, header, loadProducts }) => {
     );
   }
 
-  function setSortClick(sortBy) {
-    sortProducts(sortBy);
+  function setSortClick(key, direction) {
+    sortProducts({ key, direction });
   }
 
   return (
@@ -47,16 +47,25 @@ const Header = ({ location, sortProducts, header, loadProducts }) => {
               <Nav.Link>Products</Nav.Link>
             </LinkContainer>
             <NavDropdown title="Sort by" id="collasible-nav-dropdown">
-              <NavDropdown.Item onClick={() => setSortClick('weight')}>
-                Weight
+              <NavDropdown.Item onClick={() => setSortClick('price', 'asc')}>
+                Price Asc
               </NavDropdown.Item>
-              <NavDropdown.Item onClick={() => setSortClick('size')}>
-                Size
+              <NavDropdown.Item onClick={() => setSortClick('price', 'desc')}>
+                Price Desc
               </NavDropdown.Item>
-              <NavDropdown.Item onClick={() => setSortClick('price')}>
-                Price
+              <NavDropdown.Item onClick={() => setSortClick('weight', 'asc')}>
+                Weight Asc
               </NavDropdown.Item>
-              <NavDropdown.Item onClick={() => setSortClick('none')}>
+              <NavDropdown.Item onClick={() => setSortClick('weight', 'desc')}>
+                Weight Desc
+              </NavDropdown.Item>
+              <NavDropdown.Item onClick={() => setSortClick('size', 'asc')}>
+                Size Asc
+              </NavDropdown.Item>
+              <NavDropdown.Item onClick={() => setSortClick('size', 'desc')}>
+                Size Desc
+              </NavDropdown.Item>
+              <NavDropdown.Item onClick={() => setSortClick('none', 'desc')}>
                 None
               </NavDropdown.Item>
             </NavDropdown>

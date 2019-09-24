@@ -1,5 +1,6 @@
 import * as Types from '../types';
 import API from '../../services/api';
+import { config } from '../../services/config';
 
 import { getProductsPromise } from '../../fakebackend/data';
 import { getAdvertisementsPromise } from '../../fakebackend/data';
@@ -56,20 +57,35 @@ export const sortProductsSuccess = products => ({
   payload: products,
 });
 
-export const sortProducts = sortBy => (dispatch, getState) => {
-  if (sortBy && sortBy !== 'none') {
+//wrong, server should sort, database, not the state
+export const sortProducts = ({ key, direction }) => (dispatch, getState) => {
+  if (key && key !== 'none') {
     function compare(a, b) {
-      if (a[sortBy] < b[sortBy]) return -1;
-      if (a[sortBy] > b[sortBy]) return 1;
+      if (a[key] < b[key]) return -1;
+      if (a[key] > b[key]) return 1;
       return 0;
     }
-    const sortedProducts = getState()
+    let sortedProducts = getState()
       .productsReducer.products.slice()
-      .filter(product => !product.isAdvert)
-      .sort(compare);
-    console.log(sortedProducts.map(p => p[sortBy]));
+      .filter(product => !product.isAdvert);
+
+    if (direction === 'asc') sortedProducts = sortedProducts.sort(compare);
+    else sortedProducts = sortedProducts.reverse(compare);
+
+    console.log(sortedProducts.map(p => p[key]));
     const productsWithAdverts = insertAdvert(sortedProducts, adverts, 5);
     dispatch(sortProductsSuccess(productsWithAdverts));
+  } else if (key && key === 'none') {
+    dispatch(
+      loadProducts(
+        {
+          page: { index: 0, size: config.pageSize },
+          sort: 'none',
+          filter: 'none',
+        },
+        false,
+      ),
+    );
   }
 };
 
