@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { connect } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroller';
 
 import Row from 'react-bootstrap/Row';
@@ -11,18 +12,20 @@ import './styles.css';
 
 import { getProductsPromise } from '../../fakebackend/data';
 import { getAdvertisementsPromise } from '../../fakebackend/data';
+import { loadProducts, loadMoreProducts } from '../../store/actions/products';
 
-const Products = () => {
+const Products = ({ isLoading, products, loadProducts, loadMoreProducts }) => {
   let productsCache = useRef([]);
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
   const [adverts, setAdverts] = useState([]);
   const [isIdle, setIsIdle] = useState(false);
 
   // did mount
   useEffect(() => {
     (async () => {
-      const _adverts = await getAdvertisementsPromise();
-      setAdverts(_adverts);
+      // const _adverts = await getAdvertisementsPromise();
+      // setAdverts(_adverts);
+      loadProducts();
     })();
   }, []);
 
@@ -68,22 +71,19 @@ const Products = () => {
         resultArr = resultArr.concat(chunk, [adverts[advertIndex]]);
     }
     console.log(resultArr);
-    setProducts(resultArr);
+    //setProducts(resultArr);
   }
 
-  async function fetchMoreData() {
-    const _products = products.concat([...productsCache.current]);
-    await insertAdvert(_products);
-    setIsIdle(true);
+  function fetchMoreData(pageStart) {
+    //skip the first load, its called in componentDidMount already
+    if (pageStart > 1) loadMoreProducts();
+    console.log(pageStart);
   }
 
-  if (typeof products === 'undefined' || products.length === 0)
-    return (
-      <>
-        <Spinner animation="border" className="center-spinner" />
-      </>
-    );
+  if (isLoading)
+    return <Spinner animation="border" className="center-spinner" />;
 
+  console.log(products);
   return (
     <>
       <InfiniteScroll
@@ -111,4 +111,7 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default connect(
+  state => ({ products: state.productsReducer.products }),
+  { loadProducts, loadMoreProducts },
+)(Products);

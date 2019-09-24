@@ -11,7 +11,7 @@ const brandAndImage = _.flatten(
   }),
 );
 
-const products = _.times(100, index => ({
+const products = _.times(10, index => ({
   id: index,
   isAdvert: false,
   name: faker.commerce.productName(),
