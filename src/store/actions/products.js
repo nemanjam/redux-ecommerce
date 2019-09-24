@@ -5,6 +5,9 @@ import { getProductsPromise } from '../../fakebackend/data';
 import { getAdvertisementsPromise } from '../../fakebackend/data';
 import { insertAdvert } from '../../utils';
 
+let adverts = [];
+let productsCache = [];
+
 export const loadProductsInit = isLoadMoreRequest => ({
   type: isLoadMoreRequest
     ? Types.LOAD_MORE_PRODUCTS_INIT
@@ -27,13 +30,19 @@ export const loadProductsSuccess = (isLoadMoreRequest, products) => ({
 
 export const loadProducts = isLoadMoreRequest => async (dispatch, getState) => {
   dispatch(loadProductsInit(isLoadMoreRequest));
-  // there is no difference in this part if its load more
-  const products = await getProductsPromise();
-  const adverts = await getAdvertisementsPromise();
-  const productsWithAdverts = insertAdvert(products, adverts, 5);
-  const moreProducts = [
-    ...getState().productsReducer.products,
-    ...productsWithAdverts,
-  ];
-  dispatch(loadProductsSuccess(isLoadMoreRequest, moreProducts));
+  let moreProducts = [];
+  let productsWithAdverts = [];
+
+  if (!isLoadMoreRequest) {
+    //first time
+    const products = await getProductsPromise();
+    adverts = await getAdvertisementsPromise();
+    moreProducts = [...getState().productsReducer.products, ...products];
+    productsWithAdverts = insertAdvert(moreProducts, adverts, 5);
+  } else {
+    moreProducts = [...getState().productsReducer.products, ...productsCache];
+    productsWithAdverts = insertAdvert(moreProducts, adverts, 5);
+  }
+  dispatch(loadProductsSuccess(isLoadMoreRequest, productsWithAdverts)); // dispatch action before fetching in cache
+  productsCache = await getProductsPromise();
 };

@@ -10,40 +10,15 @@ import Product from '../../components/Product';
 import Advertisement from '../../components/Advertisement';
 import './styles.css';
 
-import { getProductsPromise } from '../../fakebackend/data';
-import { getAdvertisementsPromise } from '../../fakebackend/data';
-import { loadProducts, loadMoreProducts } from '../../store/actions/products';
+import { loadProducts } from '../../store/actions/products';
 
 const Products = ({ isLoading, products, loadProducts }) => {
-  let productsCache = useRef([]);
-  // const [products, setProducts] = useState([]);
-  const [adverts, setAdverts] = useState([]);
-  const [isIdle, setIsIdle] = useState(false);
-
   // did mount
   useEffect(() => {
     (async () => {
       loadProducts(false);
     })();
   }, []);
-
-  //adverts loaded
-  useEffect(() => {
-    (async () => {
-      if (adverts.length > 0) {
-        setIsIdle(true);
-      }
-    })();
-  }, [adverts]);
-
-  useEffect(() => {
-    (async () => {
-      if (isIdle) {
-        productsCache.current = await getProductsPromise();
-        setIsIdle(false);
-      }
-    })();
-  }, [isIdle]);
 
   function fetchMoreData(pageStart) {
     // skip the first load, its called in componentDidMount already
@@ -52,7 +27,11 @@ const Products = ({ isLoading, products, loadProducts }) => {
   }
 
   if (isLoading)
-    return <Spinner animation="border" className="center-spinner" />;
+    return (
+      <>
+        <Spinner animation="border" className="center-spinner" />
+      </>
+    );
 
   console.log(products);
   return (
