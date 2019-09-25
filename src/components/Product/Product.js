@@ -10,13 +10,19 @@ import { Link } from 'react-router-dom';
 import './styles.css';
 
 import { likeProduct, unlikeProduct } from '../../store/actions/liked';
+import {
+  addProductToCart,
+  removeProductFromCart,
+} from '../../store/actions/cart';
 
 const Product = ({
   product,
-
   likeProduct,
   unlikeProduct,
+  addProductToCart,
+  removeProductFromCart,
   liked,
+  cart,
 }) => {
   const { name, price, image, shortDescription, description } = product;
   const [isLoading, setIsLoading] = useState(true);
@@ -39,6 +45,19 @@ const Product = ({
       liked.likedProducts.length > 0 &&
       liked.likedProducts.find(p => p.id === product.id);
     return isLiked;
+  }
+
+  function toggleAddProduct() {
+    if (isAdded()) removeProductFromCart(product);
+    else addProductToCart(product);
+    //console.log(cart.cartProducts);
+  }
+
+  function isAdded() {
+    const isAdded =
+      cart.cartProducts.length > 0 &&
+      cart.cartProducts.find(p => p.id === product.id);
+    return isAdded;
   }
 
   return (
@@ -93,8 +112,13 @@ const Product = ({
               <div className="price text-success">
                 <h5 className="mt-4">${price}</h5>
               </div>
-              <Button variant="primary" className="mt-3">
-                <i className="fa fa-shopping-cart"></i> Add to Cart
+              <Button
+                variant={!isAdded() ? 'primary' : 'danger'}
+                onClick={toggleAddProduct}
+                className="mt-3"
+              >
+                <i className="fa fa-shopping-cart"></i>{' '}
+                {!isAdded() ? 'Add to Cart' : 'Added to Cart'}
               </Button>
             </div>
           </Card.Body>
@@ -107,6 +131,7 @@ const Product = ({
 export default connect(
   state => ({
     liked: state.likedReducer,
+    cart: state.cartReducer,
   }),
-  { likeProduct, unlikeProduct },
+  { likeProduct, unlikeProduct, addProductToCart, removeProductFromCart },
 )(Product);

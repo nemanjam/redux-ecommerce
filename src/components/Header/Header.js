@@ -25,6 +25,7 @@ const Header = ({
   setFilterBy,
   setPageToLoad,
   liked,
+  cart,
 }) => {
   const { pathname } = location;
 
@@ -130,9 +131,11 @@ const Header = ({
             <LinkContainer to="/cart">
               <Nav.Link>
                 Cart <i className="fa fa-shopping-cart"></i>{' '}
-                <Badge pill variant="danger">
-                  3
-                </Badge>
+                {cart.cartProducts.length > 0 && (
+                  <Badge pill variant="danger">
+                    {cart.cartProducts.length}
+                  </Badge>
+                )}
               </Nav.Link>
             </LinkContainer>
             <LinkContainer to="/login">
@@ -145,6 +148,10 @@ const Header = ({
   );
 };
 export default connect(
-  state => ({ header: state.headerReducer, liked: state.likedReducer }),
+  state => ({
+    header: state.headerReducer,
+    liked: state.likedReducer,
+    cart: state.cartReducer,
+  }),
   { setSortBy, setFilterBy, setPageToLoad, loadProducts },
 )(withRouter(Header));

@@ -8,19 +8,10 @@ import Product from '../../components/Product';
 import MySpinner from '../../components/MySpinner';
 import './styles.css';
 
-import { loadLikedProducts } from '../../store/actions/liked';
-
 import { config } from '../../services/config';
 
-const Liked = ({ liked: { likedProducts, isLoading } }) => {
-  useEffect(() => {
-    (async () => {
-      loadLikedProducts();
-    })();
-  }, []);
-
+const Liked = ({ liked: { likedProducts } }) => {
   // console.log(likedProducts);
-  if (isLoading) return <MySpinner key={0} text={'IsLoading...'} />;
 
   return (
     <Fragment>
@@ -37,5 +28,5 @@ export default connect(
   state => ({
     liked: state.likedReducer,
   }),
-  { loadLikedProducts },
+  {},
 )(Liked);
