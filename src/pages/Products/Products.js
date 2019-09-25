@@ -20,7 +20,7 @@ const Products = ({ isLoading, products, loadProducts }) => {
       loadProducts(
         {
           page: { index: 0, size: config.pageSize },
-          sort: 'none',
+          sort: { key: 'none', direction: 'asc' },
           filter: 'none',
         },
         false,
@@ -39,7 +39,7 @@ const Products = ({ isLoading, products, loadProducts }) => {
       </>
     );
 
-  console.log(products);
+  //console.log(products);
   //hasMore prop has to be set false when there are no more filtered items, server must return that
   return (
     <>

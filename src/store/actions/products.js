@@ -41,13 +41,13 @@ export const loadProducts = (params, isLoadMoreRequest) => async (
   }
   const products = await getProductsPromise(params);
 
-  if (!isLoadMoreRequest && params && params.filter !== 'none') {
+  if (!isLoadMoreRequest) {
     moreProducts = [...products];
   } else {
     //load more
     moreProducts = [...getState().productsReducer.products, ...products];
   }
-
+  console.log(moreProducts.map(p => p[params.sort.key]));
   const productsWithAdverts = insertAdvert(moreProducts, adverts, 5);
   dispatch(loadProductsSuccess(isLoadMoreRequest, productsWithAdverts));
 };
@@ -56,38 +56,6 @@ export const sortProductsSuccess = products => ({
   type: Types.SORT_PRODUCTS_SUCCESS,
   payload: products,
 });
-
-//wrong, server should sort, database, not the state
-export const sortProducts = ({ key, direction }) => (dispatch, getState) => {
-  if (key && key !== 'none') {
-    function compare(a, b) {
-      if (a[key] < b[key]) return -1;
-      if (a[key] > b[key]) return 1;
-      return 0;
-    }
-    let sortedProducts = getState()
-      .productsReducer.products.slice()
-      .filter(product => !product.isAdvert);
-
-    if (direction === 'asc') sortedProducts = sortedProducts.sort(compare);
-    else sortedProducts = sortedProducts.reverse(compare);
-
-    console.log(sortedProducts.map(p => p[key]));
-    const productsWithAdverts = insertAdvert(sortedProducts, adverts, 5);
-    dispatch(sortProductsSuccess(productsWithAdverts));
-  } else if (key && key === 'none') {
-    dispatch(
-      loadProducts(
-        {
-          page: { index: 0, size: config.pageSize },
-          sort: 'none',
-          filter: 'none',
-        },
-        false,
-      ),
-    );
-  }
-};
 
 /*
 export const loadProducts = (params, isLoadMoreRequest) => async (

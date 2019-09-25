@@ -10,21 +10,32 @@ import Nav from 'react-bootstrap/Nav';
 import Badge from 'react-bootstrap/Badge';
 
 import { setSortBy } from '../../store/actions/header';
-import { loadProducts, sortProducts } from '../../store/actions/products';
+import { loadProducts } from '../../store/actions/products';
 import { config } from '../../services/config';
 
-const Header = ({ location, sortProducts, header, loadProducts }) => {
+const Header = ({ location, header, loadProducts }) => {
   const { pathname } = location;
 
   function setFilterClick(filter) {
     loadProducts(
-      { page: { index: 0, size: config.pageSize }, filter, sort: 'none' },
+      {
+        page: { index: 0, size: config.pageSize },
+        filter,
+        sort: { key: 'none', direction: 'asc' },
+      },
       false,
     );
   }
 
   function setSortClick(key, direction) {
-    sortProducts({ key, direction });
+    loadProducts(
+      {
+        page: { index: 0, size: config.pageSize },
+        filter: 'none',
+        sort: { key, direction },
+      },
+      false,
+    );
   }
 
   return (
@@ -118,5 +129,5 @@ const Header = ({ location, sortProducts, header, loadProducts }) => {
 };
 export default connect(
   state => ({ header: state.headerReducer }),
-  { setSortBy, loadProducts, sortProducts },
+  { setSortBy, loadProducts },
 )(withRouter(Header));

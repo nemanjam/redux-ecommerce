@@ -43,19 +43,20 @@ const getDataWithDelay = (data, delay = 0) =>
   new Promise(resolveFn => setTimeout(resolveFn, delay, data));
 
 export const getProductsPromise = params => {
-  //params = { page: { index: 0, size: 15 }, filter: 'mepps', sort: 'price' };
+  //params = { page: { index: 0, size: 15 }, filter: 'mepps', sort: {key:'price', direction:'asc'} };
   let products = getProducts();
 
   if (params && 'filter' in params && params.filter !== 'none')
     products = products.filter(product => product.brand === params.filter);
 
-  if (params && 'sort' in params && params.sort !== 'none') {
+  if (params && 'sort' in params && params.sort.key !== 'none') {
     function compare(a, b) {
-      if (a[params.sort] < b[params.sort]) return -1;
-      if (a[params.sort] > b[params.sort]) return 1;
+      if (a[params.sort.key] < b[params.sort.key]) return -1;
+      if (a[params.sort.key] > b[params.sort.key]) return 1;
       return 0;
     }
     products = products.sort(compare);
+    if (params.sort.direction === 'desc') products = products.reverse();
   }
 
   if (params && 'page' in params) {
