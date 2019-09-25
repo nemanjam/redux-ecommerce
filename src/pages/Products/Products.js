@@ -4,10 +4,10 @@ import InfiniteScroll from 'react-infinite-scroller';
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Spinner from 'react-bootstrap/Spinner';
 
 import Product from '../../components/Product';
 import Advertisement from '../../components/Advertisement';
+import MySpinner from '../../components/MySpinner';
 import './styles.css';
 
 import { loadProducts } from '../../store/actions/products';
@@ -36,7 +36,6 @@ const Products = ({
     })();
   }, []);
 
-  //(type, {v, ...d}) => type === 'incr-v' ? {...d, v: v+1} :
   function fetchMoreData(pageToLoad) {
     if (pageToLoad > 2) {
       loadProducts(
@@ -55,17 +54,7 @@ const Products = ({
     }
   }
 
-  if (isLoading)
-    return (
-      <>
-        {/* <Spinner animation="border" className="center-spinner" /> */}
-        <Col xs={12} sm={6} lg={4} key={0} className="container">
-          <div className="row h-100 justify-content-center align-self-center h-301">
-            <h1>Loading isLoading</h1>
-          </div>
-        </Col>
-      </>
-    );
+  if (products.isLoading) return <MySpinner key={0} text={'IsLoading'} />;
 
   console.log(products.products);
   return (
@@ -75,14 +64,7 @@ const Products = ({
         pageStart={0}
         loadMore={fetchMoreData}
         hasMore={products.hasMoreItems}
-        loader={
-          <Col xs={12} sm={6} lg={4} key={0} className="container">
-            <div className="row h-100 justify-content-center align-self-center h-301">
-              {/* <Spinner animation="border" className="align-self-center" /> */}
-              <h1>Loading scroll</h1>
-            </div>
-          </Col>
-        }
+        loader={<MySpinner key={1} text={'Scrollbar'} />}
       >
         {products.products.map((product, i) =>
           product.isAdvert ? (
