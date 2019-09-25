@@ -20,6 +20,12 @@ const Liked = ({ liked: { likedProducts } }) => {
           <Product product={product} key={i} />
         ))}
       </Row>
+
+      {likedProducts.length === 0 && (
+        <Row className="justify-content-center">
+          <h4>There are no liked products yet.</h4>
+        </Row>
+      )}
     </Fragment>
   );
 };

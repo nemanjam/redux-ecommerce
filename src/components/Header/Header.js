@@ -83,7 +83,11 @@ const Header = ({
             <LinkContainer to="/products">
               <Nav.Link>Products</Nav.Link>
             </LinkContainer>
-            <NavDropdown title="Sort by" id="collasible-nav-dropdown">
+            <NavDropdown
+              disabled={pathname !== '/products'}
+              title="Sort by"
+              id="collasible-nav-dropdown"
+            >
               {[
                 { label: 'price (asc)', key: 'price', direction: 'asc' },
                 { label: 'price (desc)', key: 'price', direction: 'desc' },
@@ -105,7 +109,11 @@ const Header = ({
                 </NavDropdown.Item>
               ))}
             </NavDropdown>
-            <NavDropdown title="Filter by" id="collasible-nav-dropdown">
+            <NavDropdown
+              disabled={pathname !== '/products'}
+              title="Filter by"
+              id="collasible-nav-dropdown"
+            >
               {[
                 { label: 'Rapala', filter: 'rapala' },
                 { label: 'Heddon', filter: 'heddon' },
