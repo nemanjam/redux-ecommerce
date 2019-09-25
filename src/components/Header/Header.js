@@ -9,15 +9,27 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Badge from 'react-bootstrap/Badge';
 
-import { setSortBy, setFilterBy } from '../../store/actions/header';
+import {
+  setSortBy,
+  setFilterBy,
+  setPageToLoad,
+} from '../../store/actions/header';
 import { loadProducts } from '../../store/actions/products';
 import { config } from '../../services/config';
 
-const Header = ({ location, header, loadProducts, setSortBy, setFilterBy }) => {
+const Header = ({
+  location,
+  header,
+  loadProducts,
+  setSortBy,
+  setFilterBy,
+  setPageToLoad,
+}) => {
   const { pathname } = location;
 
   function setFilterClick(filter) {
     setFilterBy(filter);
+    setPageToLoad(0);
     loadProducts(
       {
         page: { index: 0, size: config.pageSize },
@@ -31,6 +43,7 @@ const Header = ({ location, header, loadProducts, setSortBy, setFilterBy }) => {
 
   function setSortClick(key, direction) {
     setSortBy({ key, direction });
+    setPageToLoad(0);
     loadProducts(
       {
         page: { index: 0, size: config.pageSize },
@@ -125,5 +138,5 @@ const Header = ({ location, header, loadProducts, setSortBy, setFilterBy }) => {
 };
 export default connect(
   state => ({ header: state.headerReducer }),
-  { setSortBy, setFilterBy, loadProducts },
+  { setSortBy, setFilterBy, setPageToLoad, loadProducts },
 )(withRouter(Header));

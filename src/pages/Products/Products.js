@@ -11,9 +11,17 @@ import Advertisement from '../../components/Advertisement';
 import './styles.css';
 
 import { loadProducts } from '../../store/actions/products';
+import { setPageToLoad } from '../../store/actions/header';
+
 import { config } from '../../services/config';
 
-const Products = ({ isLoading, products, loadProducts, header }) => {
+const Products = ({
+  isLoading,
+  products,
+  loadProducts,
+  header,
+  setPageToLoad,
+}) => {
   // did mount
   useEffect(() => {
     (async () => {
@@ -28,32 +36,38 @@ const Products = ({ isLoading, products, loadProducts, header }) => {
     })();
   }, []);
 
-  function fetchMoreData(pageStart) {
-    if (pageStart > 2) {
+  //(type, {v, ...d}) => type === 'incr-v' ? {...d, v: v+1} :
+  function fetchMoreData(pageToLoad) {
+    if (pageToLoad > 2) {
       loadProducts(
         {
           page: {
-            index: (pageStart - 1) * config.pageSize,
+            index: (header.pageToLoad + 1) * config.pageSize,
             size: config.pageSize,
           },
           sort: header.sortBy,
           filter: header.filterBy,
         },
         true,
+        () => setPageToLoad(header.pageToLoad + 1), // this way or race loop!!!
       );
+      console.log(header.pageToLoad);
     }
-    console.log(pageStart);
   }
 
   if (isLoading)
     return (
       <>
-        <Spinner animation="border" className="center-spinner" />
+        {/* <Spinner animation="border" className="center-spinner" /> */}
+        <Col xs={12} sm={6} lg={4} key={0} className="container">
+          <div className="row h-100 justify-content-center align-self-center h-301">
+            <h1>Loading isLoading</h1>
+          </div>
+        </Col>
       </>
     );
 
-  //console.log(products);
-  //hasMore prop has to be set false when there are no more filtered items, server must return that
+  console.log(products.products);
   return (
     <>
       <InfiniteScroll
@@ -64,7 +78,8 @@ const Products = ({ isLoading, products, loadProducts, header }) => {
         loader={
           <Col xs={12} sm={6} lg={4} key={0} className="container">
             <div className="row h-100 justify-content-center align-self-center h-301">
-              <Spinner animation="border" className="align-self-center" />
+              {/* <Spinner animation="border" className="align-self-center" /> */}
+              <h1>Loading scroll</h1>
             </div>
           </Col>
         }
@@ -77,6 +92,14 @@ const Products = ({ isLoading, products, loadProducts, header }) => {
           ),
         )}
       </InfiniteScroll>
+
+      {!products.hasMoreItems && (
+        <Row className="mb-3">
+          <Col>
+            <h4 className="text-center">No more products</h4>{' '}
+          </Col>
+        </Row>
+      )}
     </>
   );
 };
@@ -86,5 +109,5 @@ export default connect(
     products: state.productsReducer,
     header: state.headerReducer,
   }),
-  { loadProducts },
+  { loadProducts, setPageToLoad },
 )(Products);

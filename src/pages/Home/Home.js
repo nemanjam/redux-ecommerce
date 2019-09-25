@@ -89,12 +89,12 @@ const Home = () => {
       </Row>
       <Row className="my-5">
         <Col xs={6} className="mx-auto">
-          <blockquote class="blockquote text-center">
-            <p class="mb-0">
+          <blockquote className="blockquote text-center">
+            <p className="mb-0">
               Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis
               natoque penatibus et magnis dis parturient montes.
             </p>
-            <footer class="blockquote-footer">
+            <footer className="blockquote-footer">
               Someone famous in <cite title="Source Title">Source Title</cite>
             </footer>
           </blockquote>

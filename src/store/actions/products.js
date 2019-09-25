@@ -29,7 +29,7 @@ export const loadProductsSuccess = (isLoadMoreRequest, products) => ({
   payload: products,
 });
 
-export const loadProducts = (params, isLoadMoreRequest) => async (
+export const loadProducts = (params, isLoadMoreRequest, callback) => async (
   dispatch,
   getState,
 ) => {
@@ -50,6 +50,7 @@ export const loadProducts = (params, isLoadMoreRequest) => async (
   // console.log(moreProducts.map(p => p[params.sort.key]));
   const productsWithAdverts = insertAdvert(moreProducts, adverts, 5);
   dispatch(loadProductsSuccess(isLoadMoreRequest, productsWithAdverts));
+  if (callback) callback();
 };
 
 /*

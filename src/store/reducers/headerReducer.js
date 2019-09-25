@@ -3,7 +3,7 @@ import * as Types from '../types';
 const initialState = {
   sortBy: { key: 'none', direction: 'asc' },
   filterBy: 'none',
-  numberOfLikes: 0,
+  pageToLoad: 0,
 };
 
 const headerReducer = (state = initialState, { type, payload }) => {
@@ -17,6 +17,11 @@ const headerReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         filterBy: payload,
+      };
+    case Types.SET_PAGE_TO_LOAD:
+      return {
+        ...state,
+        pageToLoad: payload,
       };
     default:
       return state;

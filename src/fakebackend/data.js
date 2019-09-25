@@ -61,7 +61,10 @@ export const getProductsPromise = params => {
   }
 
   if (params && 'page' in params) {
-    products = products.slice(params.page.index, params.page.size);
+    products = products.slice(
+      params.page.index,
+      params.page.index + params.page.size,
+    );
   }
 
   return getDataWithDelay(products);
