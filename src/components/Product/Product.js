@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { connect } from 'react-redux';
 
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -8,7 +9,16 @@ import { Link } from 'react-router-dom';
 
 import './styles.css';
 
-const Product = ({ name, price, image, shortDescription, description }) => {
+import { likeProduct, unlikeProduct } from '../../store/actions/liked';
+
+const Product = ({
+  product,
+
+  likeProduct,
+  unlikeProduct,
+  liked,
+}) => {
+  const { name, price, image, shortDescription, description } = product;
   const [isLoading, setIsLoading] = useState(true);
   const counter = useRef(0);
 
@@ -17,6 +27,18 @@ const Product = ({ name, price, image, shortDescription, description }) => {
     if (counter.current >= 1) {
       setIsLoading(false);
     }
+  }
+
+  function toggleLike() {
+    if (isLiked()) unlikeProduct(product);
+    else likeProduct(product);
+  }
+
+  function isLiked() {
+    const isLiked =
+      liked.likedProducts.length > 0 &&
+      liked.likedProducts.find(p => p.id === product.id);
+    return isLiked;
   }
 
   return (
@@ -30,7 +52,7 @@ const Product = ({ name, price, image, shortDescription, description }) => {
         className="container"
         style={{ display: isLoading ? 'block' : 'none' }}
       >
-        <div className="row h-100 justify-content-center align-self-center h-300">
+        <div className="row justify-content-center align-self-center h-300">
           <Spinner animation="border" className="align-self-center" />
         </div>
       </Col>
@@ -44,7 +66,14 @@ const Product = ({ name, price, image, shortDescription, description }) => {
         style={{ display: isLoading ? 'none' : 'block' }}
       >
         <Card>
-          <i className="fa fa-heart text-danger like"></i>
+          <i
+            onClick={toggleLike}
+            className={
+              isLiked()
+                ? 'fa fa-heart text-success like'
+                : 'fa fa-heart text-danger like'
+            }
+          ></i>
           <Link to="/product-details">
             <Card.Img
               variant="top"
@@ -75,4 +104,9 @@ const Product = ({ name, price, image, shortDescription, description }) => {
   );
 };
 
-export default Product;
+export default connect(
+  state => ({
+    liked: state.likedReducer,
+  }),
+  { likeProduct, unlikeProduct },
+)(Product);

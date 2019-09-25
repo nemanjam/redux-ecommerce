@@ -16,6 +16,7 @@ import Container from 'react-bootstrap/Container';
 
 import Home from './pages/Home';
 import Products from './pages/Products';
+import Liked from './pages/Liked';
 import Cart from './pages/Cart';
 import Login from './pages/Login/Login';
 import ProductDetails from './pages/ProductDetails';
@@ -45,6 +46,7 @@ const Root = () => {
           <Switch>
             <Route path="/home" exact component={Home} />
             <Route path="/products" exact component={Products} />
+            <Route path="/liked" exact component={Liked} />
             <Route path="/product-details" exact component={ProductDetails} />
             <Route path="/cart" component={Cart} />
             <Route path="/login" component={Login} />

@@ -70,7 +70,7 @@ const Products = ({
           product.isAdvert ? (
             <Advertisement {...product} key={i} />
           ) : (
-            <Product {...product} key={i} />
+            <Product product={product} key={i} />
           ),
         )}
       </InfiniteScroll>

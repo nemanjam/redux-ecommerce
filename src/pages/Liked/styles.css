@@ -1,0 +1,14 @@
+.list-margin-top {
+  margin-top: 70px;
+}
+
+.center-spinner {
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.h-301 {
+  min-height: 300px;
+}

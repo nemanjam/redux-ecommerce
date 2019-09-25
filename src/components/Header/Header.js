@@ -24,6 +24,7 @@ const Header = ({
   setSortBy,
   setFilterBy,
   setPageToLoad,
+  liked,
 }) => {
   const { pathname } = location;
 
@@ -114,14 +115,16 @@ const Header = ({
                 </NavDropdown.Item>
               ))}
             </NavDropdown>
-            <Nav.Link>
-              Liked{' '}
-              {header.numberOfLikes > 0 && (
-                <Badge pill variant="light">
-                  {header.numberOfLikes}
-                </Badge>
-              )}
-            </Nav.Link>
+            <LinkContainer to="/liked">
+              <Nav.Link>
+                Liked{' '}
+                {liked.likedProducts.length > 0 && (
+                  <Badge pill variant="light">
+                    {liked.likedProducts.length}
+                  </Badge>
+                )}
+              </Nav.Link>
+            </LinkContainer>
           </Nav>
           <Nav activeKey={pathname}>
             <LinkContainer to="/cart">
@@ -142,6 +145,6 @@ const Header = ({
   );
 };
 export default connect(
-  state => ({ header: state.headerReducer }),
+  state => ({ header: state.headerReducer, liked: state.likedReducer }),
   { setSortBy, setFilterBy, setPageToLoad, loadProducts },
 )(withRouter(Header));
