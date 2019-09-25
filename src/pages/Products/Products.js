@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, Fragment } from 'react';
 import { connect } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroller';
 
@@ -16,8 +16,7 @@ import { setPageToLoad } from '../../store/actions/header';
 import { config } from '../../services/config';
 
 const Products = ({
-  isLoading,
-  products,
+  products: { isLoading, products, hasMoreItems },
   loadProducts,
   header,
   setPageToLoad,
@@ -36,8 +35,9 @@ const Products = ({
     })();
   }, []);
 
-  function fetchMoreData(pageToLoad) {
-    if (pageToLoad > 2) {
+  async function fetchMoreData(pageToLoad) {
+    // console.log('pageToLoad: ', pageToLoad);
+    if (pageToLoad > 0) {
       loadProducts(
         {
           page: {
@@ -50,23 +50,23 @@ const Products = ({
         true,
         () => setPageToLoad(header.pageToLoad + 1), // this way or race loop!!!
       );
-      console.log(header.pageToLoad);
+      //console.log('header.pageToLoad: ', header.pageToLoad);
     }
   }
 
-  if (products.isLoading) return <MySpinner key={0} text={'IsLoading'} />;
+  console.log(products);
+  if (isLoading) return <MySpinner key={0} text={'IsLoading...'} />;
 
-  console.log(products.products);
   return (
-    <>
+    <Fragment>
       <InfiniteScroll
         className="row"
         pageStart={0}
         loadMore={fetchMoreData}
-        hasMore={products.hasMoreItems}
-        loader={<MySpinner key={1} text={'Scrollbar'} />}
+        hasMore={hasMoreItems}
+        initialLoad={false}
       >
-        {products.products.map((product, i) =>
+        {products.map((product, i) =>
           product.isAdvert ? (
             <Advertisement {...product} key={i} />
           ) : (
@@ -74,15 +74,14 @@ const Products = ({
           ),
         )}
       </InfiniteScroll>
-
-      {!products.hasMoreItems && (
+      {!hasMoreItems && (
         <Row className="mb-3">
           <Col>
-            <h4 className="text-center">No more products</h4>{' '}
+            <h4 className="text-center">No more products</h4>
           </Col>
         </Row>
       )}
-    </>
+    </Fragment>
   );
 };
 

@@ -3,9 +3,12 @@ import Spinner from 'react-bootstrap/Spinner';
 
 import './styles.css';
 
-const MySpinner = ({ text }) => {
+const MySpinner = ({ text, ...rest }) => {
   return (
-    <div className="spinner-container d-flex align-items-center justify-content-center">
+    <div
+      {...rest}
+      className="spinner-container d-flex align-items-center justify-content-center"
+    >
       {text ? <h1>{`${text}...`}</h1> : <Spinner animation="border" />}
     </div>
   );
