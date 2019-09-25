@@ -22,10 +22,11 @@ const Header = ({ location, header, loadProducts, setSortBy, setFilterBy }) => {
       {
         page: { index: 0, size: config.pageSize },
         filter,
-        sort: { key: 'none', direction: 'asc' },
+        sort: { ...header.sortBy },
       },
       false,
     );
+    window.scrollTo(0, 0);
   }
 
   function setSortClick(key, direction) {
@@ -33,11 +34,12 @@ const Header = ({ location, header, loadProducts, setSortBy, setFilterBy }) => {
     loadProducts(
       {
         page: { index: 0, size: config.pageSize },
-        filter: 'none',
+        filter: header.filterBy,
         sort: { key, direction },
       },
       false,
     );
+    window.scrollTo(0, 0);
   }
 
   return (
