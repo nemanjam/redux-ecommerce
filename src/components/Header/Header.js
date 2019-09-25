@@ -85,6 +85,10 @@ const Header = ({
                 { label: 'none', key: 'none', direction: 'asc' },
               ].map((item, i) => (
                 <NavDropdown.Item
+                  active={
+                    header.sortBy.key === item.key &&
+                    header.sortBy.direction === item.direction
+                  }
                   key={i}
                   onClick={() => setSortClick(item.key, item.direction)}
                 >
@@ -99,9 +103,10 @@ const Header = ({
                 { label: 'Cotton Cordel', filter: 'cottoncordel' },
                 { label: 'Rebel', filter: 'rebel' },
                 { label: 'Mepps', filter: 'mepps' },
-                { label: 'None', filter: 'none' },
+                { label: 'none', filter: 'none' },
               ].map((item, i) => (
                 <NavDropdown.Item
+                  active={header.filterBy === item.filter}
                   key={i}
                   onClick={() => setFilterClick(item.filter)}
                 >
