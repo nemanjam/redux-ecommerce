@@ -45,17 +45,12 @@ export const loadProducts = (params, isLoadMoreRequest) => async (
     moreProducts = [...products];
   } else {
     //load more
-    moreProducts = [...getState().productsReducer.products, ...products];
+    moreProducts = [...products];
   }
-  console.log(moreProducts.map(p => p[params.sort.key]));
+  // console.log(moreProducts.map(p => p[params.sort.key]));
   const productsWithAdverts = insertAdvert(moreProducts, adverts, 5);
   dispatch(loadProductsSuccess(isLoadMoreRequest, productsWithAdverts));
 };
-
-export const sortProductsSuccess = products => ({
-  type: Types.SORT_PRODUCTS_SUCCESS,
-  payload: products,
-});
 
 /*
 export const loadProducts = (params, isLoadMoreRequest) => async (

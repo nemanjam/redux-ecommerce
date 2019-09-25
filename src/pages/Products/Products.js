@@ -13,7 +13,7 @@ import './styles.css';
 import { loadProducts } from '../../store/actions/products';
 import { config } from '../../services/config';
 
-const Products = ({ isLoading, products, loadProducts }) => {
+const Products = ({ isLoading, products, loadProducts, header }) => {
   // did mount
   useEffect(() => {
     (async () => {
@@ -29,7 +29,20 @@ const Products = ({ isLoading, products, loadProducts }) => {
   }, []);
 
   function fetchMoreData(pageStart) {
-    //if (pageStart > 1) loadProducts(null, true);
+    if (pageStart > 2) {
+      loadProducts(
+        {
+          page: {
+            index: (pageStart - 1) * config.pageSize,
+            size: config.pageSize,
+          },
+          sort: header.sortBy,
+          filter: header.filterBy,
+        },
+        true,
+      );
+    }
+    console.log(pageStart);
   }
 
   if (isLoading)
@@ -47,7 +60,7 @@ const Products = ({ isLoading, products, loadProducts }) => {
         className="row"
         pageStart={0}
         loadMore={fetchMoreData}
-        hasMore={true}
+        hasMore={products.hasMoreItems}
         loader={
           <Col xs={12} sm={6} lg={4} key={0} className="container">
             <div className="row h-100 justify-content-center align-self-center h-301">
@@ -56,7 +69,7 @@ const Products = ({ isLoading, products, loadProducts }) => {
           </Col>
         }
       >
-        {products.map((product, i) =>
+        {products.products.map((product, i) =>
           product.isAdvert ? (
             <Advertisement {...product} key={i} />
           ) : (
@@ -70,7 +83,8 @@ const Products = ({ isLoading, products, loadProducts }) => {
 
 export default connect(
   state => ({
-    products: state.productsReducer.products,
+    products: state.productsReducer,
+    header: state.headerReducer,
   }),
   { loadProducts },
 )(Products);

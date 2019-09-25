@@ -1,5 +1,6 @@
 import faker from 'faker';
 import _ from 'lodash';
+import { config } from '../services/config';
 
 const brandAndImage = _.flatten(
   _.times(20, i => {
@@ -28,7 +29,7 @@ const getProducts = () => {
   return products;
 };
 
-const advertisements = _.times(100, index => ({
+const advertisements = _.times(10, index => ({
   id: index,
   isAdvert: true,
   name: faker.commerce.productName(),
@@ -39,7 +40,7 @@ const advertisements = _.times(100, index => ({
   time: faker.date.recent(),
 }));
 
-const getDataWithDelay = (data, delay = 0) =>
+const getDataWithDelay = (data, delay = config.delay) =>
   new Promise(resolveFn => setTimeout(resolveFn, delay, data));
 
 export const getProductsPromise = params => {
@@ -66,5 +67,3 @@ export const getProductsPromise = params => {
   return getDataWithDelay(products);
 };
 export const getAdvertisementsPromise = () => getDataWithDelay(advertisements);
-
-//const myArg = "lol"; ary.sort((a,b) => a[myArg]...)

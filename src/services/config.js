@@ -4,4 +4,5 @@ export const config = {
   products: '/api/products',
   pageSize: 10,
   advertIndex: 5,
+  delay: 1000,
 };

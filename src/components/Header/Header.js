@@ -9,14 +9,15 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Badge from 'react-bootstrap/Badge';
 
-import { setSortBy } from '../../store/actions/header';
+import { setSortBy, setFilterBy } from '../../store/actions/header';
 import { loadProducts } from '../../store/actions/products';
 import { config } from '../../services/config';
 
-const Header = ({ location, header, loadProducts }) => {
+const Header = ({ location, header, loadProducts, setSortBy, setFilterBy }) => {
   const { pathname } = location;
 
   function setFilterClick(filter) {
+    setFilterBy(filter);
     loadProducts(
       {
         page: { index: 0, size: config.pageSize },
@@ -28,6 +29,7 @@ const Header = ({ location, header, loadProducts }) => {
   }
 
   function setSortClick(key, direction) {
+    setSortBy({ key, direction });
     loadProducts(
       {
         page: { index: 0, size: config.pageSize },
@@ -58,47 +60,39 @@ const Header = ({ location, header, loadProducts }) => {
               <Nav.Link>Products</Nav.Link>
             </LinkContainer>
             <NavDropdown title="Sort by" id="collasible-nav-dropdown">
-              <NavDropdown.Item onClick={() => setSortClick('price', 'asc')}>
-                Price Asc
-              </NavDropdown.Item>
-              <NavDropdown.Item onClick={() => setSortClick('price', 'desc')}>
-                Price Desc
-              </NavDropdown.Item>
-              <NavDropdown.Item onClick={() => setSortClick('weight', 'asc')}>
-                Weight Asc
-              </NavDropdown.Item>
-              <NavDropdown.Item onClick={() => setSortClick('weight', 'desc')}>
-                Weight Desc
-              </NavDropdown.Item>
-              <NavDropdown.Item onClick={() => setSortClick('size', 'asc')}>
-                Size Asc
-              </NavDropdown.Item>
-              <NavDropdown.Item onClick={() => setSortClick('size', 'desc')}>
-                Size Desc
-              </NavDropdown.Item>
-              <NavDropdown.Item onClick={() => setSortClick('none', 'desc')}>
-                None
-              </NavDropdown.Item>
+              {[
+                { label: 'price (asc)', key: 'price', direction: 'asc' },
+                { label: 'price (desc)', key: 'price', direction: 'desc' },
+                { label: 'weight (asc)', key: 'weight', direction: 'asc' },
+                { label: 'weight (desc)', key: 'weight', direction: 'desc' },
+                { label: 'size (asc)', key: 'size', direction: 'asc' },
+                { label: 'size (desc)', key: 'size', direction: 'desc' },
+                { label: 'none', key: 'none', direction: 'asc' },
+              ].map((item, i) => (
+                <NavDropdown.Item
+                  key={i}
+                  onClick={() => setSortClick(item.key, item.direction)}
+                >
+                  {item.label}
+                </NavDropdown.Item>
+              ))}
             </NavDropdown>
             <NavDropdown title="Filter by" id="collasible-nav-dropdown">
-              <NavDropdown.Item onClick={() => setFilterClick('rapala')}>
-                Rapala
-              </NavDropdown.Item>
-              <NavDropdown.Item onClick={() => setFilterClick('heddon')}>
-                Heddon
-              </NavDropdown.Item>
-              <NavDropdown.Item onClick={() => setFilterClick('cottoncordel')}>
-                Cotton Cordel
-              </NavDropdown.Item>
-              <NavDropdown.Item onClick={() => setFilterClick('rebel')}>
-                Rebel
-              </NavDropdown.Item>
-              <NavDropdown.Item onClick={() => setFilterClick('mepps')}>
-                Mepps
-              </NavDropdown.Item>
-              <NavDropdown.Item onClick={() => setFilterClick('none')}>
-                None
-              </NavDropdown.Item>
+              {[
+                { label: 'Rapala', filter: 'rapala' },
+                { label: 'Heddon', filter: 'heddon' },
+                { label: 'Cotton Cordel', filter: 'cottoncordel' },
+                { label: 'Rebel', filter: 'rebel' },
+                { label: 'Mepps', filter: 'mepps' },
+                { label: 'None', filter: 'none' },
+              ].map((item, i) => (
+                <NavDropdown.Item
+                  key={i}
+                  onClick={() => setFilterClick(item.filter)}
+                >
+                  {item.label}
+                </NavDropdown.Item>
+              ))}
             </NavDropdown>
             <Nav.Link>
               Liked{' '}
@@ -129,5 +123,5 @@ const Header = ({ location, header, loadProducts }) => {
 };
 export default connect(
   state => ({ header: state.headerReducer }),
-  { setSortBy, loadProducts },
+  { setSortBy, setFilterBy, loadProducts },
 )(withRouter(Header));

@@ -1,10 +1,11 @@
 import * as Types from '../types';
+import { config } from '../../services/config';
 
 const initialState = {
   isLoading: false,
   error: null,
   products: [],
-  insertAddAt: 5,
+  hasMoreItems: true,
 };
 
 const productsReducer = (state = initialState, { type, payload }) => {
@@ -18,12 +19,14 @@ const productsReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isLoading: false,
+        hasMoreItems: false,
         error: payload,
       };
     case Types.LOAD_PRODUCTS_SUCCESS:
       return {
         ...state,
         isLoading: false,
+        hasMoreItems: payload.length > config.pageSize,
         error: null,
         products: payload,
       };
@@ -31,19 +34,16 @@ const productsReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isLoading: false,
+        hasMoreItems: false,
         error: payload,
       };
     case Types.LOAD_MORE_PRODUCTS_SUCCESS:
       return {
         ...state,
         isLoading: false,
+        hasMoreItems: payload.length > config.pageSize,
         error: null,
-        products: payload,
-      };
-    case Types.SORT_PRODUCTS_SUCCESS:
-      return {
-        ...state,
-        products: payload,
+        products: [...state.products, ...payload],
       };
     default:
       return state;

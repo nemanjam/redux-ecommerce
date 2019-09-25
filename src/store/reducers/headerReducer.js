@@ -1,7 +1,7 @@
 import * as Types from '../types';
 
 const initialState = {
-  sortBy: 'none',
+  sortBy: { key: 'none', direction: 'asc' },
   filterBy: 'none',
   numberOfLikes: 0,
 };
@@ -11,7 +11,7 @@ const headerReducer = (state = initialState, { type, payload }) => {
     case Types.SET_SORT_BY:
       return {
         ...state,
-        sortBy: payload,
+        sortBy: { ...payload },
       };
     case Types.SET_FILTER_BY:
       return {
