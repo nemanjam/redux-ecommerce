@@ -56,7 +56,7 @@ const Product = ({
   function isAdded() {
     const isAdded =
       cart.cartProducts.length > 0 &&
-      cart.cartProducts.find(p => p.id === product.id);
+      cart.cartProducts.find(p => p.product.id === product.id);
     return isAdded;
   }
 
@@ -95,6 +95,7 @@ const Product = ({
           ></i>
           <Link to="/product-details">
             <Card.Img
+              className="product-img-obj-fit"
               variant="top"
               src={require(`../../static/products/${image}`)}
               alt="Vans"
@@ -110,7 +111,7 @@ const Product = ({
 
             <div className="buy d-flex justify-content-between align-items-center">
               <div className="price text-success">
-                <h5 className="mt-4">${price}</h5>
+                <h5 className="mt-4">${price.toFixed(2)}</h5>
               </div>
               <Button
                 variant={!isAdded() ? 'primary' : 'danger'}

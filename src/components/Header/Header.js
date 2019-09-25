@@ -57,6 +57,13 @@ const Header = ({
     window.scrollTo(0, 0);
   }
 
+  function calcCartLength() {
+    const sum = cart.cartProducts
+      .map(p => p.quantity)
+      .reduce((a, b) => a + b, 0);
+    return sum;
+  }
+
   return (
     <Navbar
       collapseOnSelect
@@ -131,9 +138,9 @@ const Header = ({
             <LinkContainer to="/cart">
               <Nav.Link>
                 Cart <i className="fa fa-shopping-cart"></i>{' '}
-                {cart.cartProducts.length > 0 && (
+                {calcCartLength() > 0 && (
                   <Badge pill variant="danger">
-                    {cart.cartProducts.length}
+                    {calcCartLength()}
                   </Badge>
                 )}
               </Nav.Link>

@@ -69,3 +69,7 @@
 .shopping-cart {
   margin-top: 20px;
 }
+
+.cart-img-obj-fit {
+  object-fit: cover;
+}

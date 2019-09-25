@@ -9,3 +9,7 @@
   z-index: 2;
   cursor: pointer;
 }
+
+.product-img-obj-fit {
+  object-fit: cover;
+}

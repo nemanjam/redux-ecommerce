@@ -25,12 +25,12 @@ const Cart = ({
           <div className="clearfix"></div>
         </div>
         <div className="card-body">
-          {cartProducts.map((product, i) => (
+          {cartProducts.map(({ product }, i) => (
             <Fragment key={i}>
               <div className="row">
                 <div className="col-12 col-sm-12 col-md-2 text-center">
                   <img
-                    className="img-responsive"
+                    className="img-responsive cart-img-obj-fit"
                     src={require(`../../static/products/${product.image}`)}
                     alt="prewiew"
                     width="120"
@@ -47,7 +47,7 @@ const Cart = ({
                     style={{ paddingTop: 5 }}
                   >
                     <h5>
-                      <strong>${product.price}</strong>
+                      <strong>${product.price.toFixed(2)}</strong>
                     </h5>
                   </div>
                   <div className="col-4 col-sm-4 col-md-4">
@@ -121,7 +121,14 @@ const Cart = ({
               Checkout
             </a>
             <div className="pull-right" style={{ margin: 5 }}>
-              Total price: <b>50.00€</b>
+              Total price:{' '}
+              <b>
+                $
+                {cartProducts
+                  .map(p => p.product.price * p.quantity)
+                  .reduce((a, b) => a + b, 0)
+                  .toFixed(2)}
+              </b>
             </div>
           </div>
         </div>
