@@ -11,6 +11,11 @@ const brandAndImage = _.flatten(
     );
   }),
 );
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 const getProducts = () => {
   const products = _.times(100, index => ({
@@ -21,11 +26,17 @@ const getProducts = () => {
     brand: brandAndImage[index].brand,
     image: brandAndImage[index].image,
     color: faker.commerce.color(),
-    size: faker.random.number(),
-    weight: faker.random.number(),
+    size: getRandomInt(3, 20),
+    weight: getRandomInt(4, 40),
     shortDescription: faker.lorem.words(),
+    modelNum: faker.random.number(),
+    delivery: [
+      faker.address.country(),
+      faker.address.country(),
+      faker.address.country(),
+    ].join(', '),
     description: faker.lorem.paragraph(),
-  })).sort((a, b) => 0.5 - Math.random());
+  })); //.sort((a, b) => 0.5 - Math.random());
   return products;
 };
 
@@ -69,4 +80,28 @@ export const getProductsPromise = params => {
 
   return getDataWithDelay(products);
 };
+export const getProductPromise = id => {
+  let products = getProducts();
+  let product = {};
+  id = parseInt(id);
+
+  if (!Number.isNaN(id) && products.length > id)
+    product = products.find(product => product.id === id);
+
+  return getDataWithDelay(product);
+};
 export const getAdvertisementsPromise = () => getDataWithDelay(advertisements);
+
+/*
+export const timeout = (duration = 1500, shouldReject = false) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (shouldReject) {
+        reject(`rejected after ${duration}ms`);
+      } else {
+        resolve(`resolved after ${duration}ms`);
+      }
+    }, duration);
+  });
+};
+*/

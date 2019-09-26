@@ -23,19 +23,17 @@ const Products = ({
 }) => {
   // did mount
   useEffect(() => {
-    (async () => {
-      loadProducts(
-        {
-          page: { index: 0, size: config.pageSize },
-          sort: { key: 'none', direction: 'asc' },
-          filter: 'none',
-        },
-        false,
-      );
-    })();
+    loadProducts(
+      {
+        page: { index: 0, size: config.pageSize },
+        sort: { key: 'none', direction: 'asc' },
+        filter: 'none',
+      },
+      false,
+    );
   }, []);
 
-  async function fetchMoreData(pageToLoad) {
+  function fetchMoreData(pageToLoad) {
     // console.log('pageToLoad: ', pageToLoad);
     if (pageToLoad > 0) {
       loadProducts(

@@ -47,7 +47,11 @@ const Root = () => {
             <Route path="/home" exact component={Home} />
             <Route path="/products" exact component={Products} />
             <Route path="/liked" exact component={Liked} />
-            <Route path="/product-details" exact component={ProductDetails} />
+            <Route
+              path="/product-details/:id"
+              exact
+              component={ProductDetails}
+            />
             <Route path="/cart" component={Cart} />
             <Route path="/login" component={Login} />
             <Route exact path="/">

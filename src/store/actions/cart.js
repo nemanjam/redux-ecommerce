@@ -19,7 +19,6 @@ export const addProductToCart = product => (dispatch, getState) => {
     filtered.splice(index, 0, _product); // at index
   }
 
-  //FORA MORA DISPATCH A NE RETURN
   dispatch({
     type: Types.ADD_PRODUCT_TO_CART,
     payload: products,

@@ -60,12 +60,12 @@ const Cart = ({
                       </div>
                       <div className="col-4 col-sm-4 col-md-4">
                         <div className="quantity">
-                          <input
+                          <button
                             onClick={() => addProductToCart(product)}
-                            type="button"
-                            defaultValue={'+'}
                             className="plus"
-                          />
+                          >
+                            +
+                          </button>
                           <input
                             type="number"
                             step="1"
@@ -76,12 +76,12 @@ const Cart = ({
                             className="qty"
                             size="4"
                           />
-                          <input
+                          <button
                             onClick={() => removeProductFromCart(product)}
-                            type="button"
-                            defaultValue={'-'}
                             className="minus"
-                          />
+                          >
+                            -
+                          </button>
                         </div>
                       </div>
                       <div className="col-2 col-sm-2 col-md-2 text-right">

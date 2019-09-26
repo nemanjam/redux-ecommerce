@@ -1,59 +1,88 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import _ from 'lodash';
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
+import MySpinner from '../../components/MySpinner';
+
+import { loadProduct } from '../../store/actions/productDetails';
+import {
+  addProductToCart,
+  removeProductFromCart,
+} from '../../store/actions/cart';
+
 import './styles.css';
 
-const ProductDetails = () => {
+const ProductDetails = ({
+  productDetails,
+  loadProduct,
+  match,
+  addProductToCart,
+  removeProductFromCart,
+  cart,
+}) => {
+  const { product, isLoading, error } = productDetails;
+
+  useEffect(() => {
+    console.log('radi');
+    loadProduct(match.params.id);
+  }, []);
+
+  function toggleAddProduct() {
+    if (isAdded()) removeProductFromCart(product);
+    else addProductToCart(product);
+    //console.log(cart.cartProducts);
+  }
+
+  function isAdded() {
+    const isAdded =
+      cart.cartProducts.length > 0 &&
+      cart.cartProducts.find(p => p.product.id === product.id);
+    return isAdded;
+  }
+  if (isLoading || _.isEmpty(product))
+    return <MySpinner key={0} text={'IsLoading...'} />;
+
+  console.log(productDetails);
   return (
     <div className="card mb-3">
       <div className="row no-gutters">
         <aside className="col-sm-5 border-right">
-          <article className="gallery-wrap">
-            <div className="img-big-wrap">
-              <div>
-                <a href="images/items/1.jpg" data-fancybox="">
-                  <img
-                    style={{ width: '100%', height: '100%' }}
-                    src={require(`../../static/products/mepps1.jpg`)}
-                  />
-                </a>
-              </div>
-            </div>
-          </article>
+          <div>
+            <img
+              className="main-img"
+              src={require(`../../static/products/${product.image}`)}
+            />
+          </div>
         </aside>
         <aside className="col-sm-7">
           <article className="p-5">
-            <h3 className="title mb-3">
-              Original Version of Some product name
-            </h3>
+            <h3 className="title mb-3">{product.name}</h3>
 
             <div className="mb-3">
               <var className="price h3 text-success">
                 <span className="currency">US $</span>
-                <span className="num">1299</span>
+                <span className="num">{product.price.toFixed(2)}</span>
               </var>
             </div>
             <dl>
               <dt>Description</dt>
               <dd>
-                <p>
-                  Here goes description consectetur adipisicing elit, sed do
-                  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                  enim ad minim veniam, quis nostrud exercitation ullamco{' '}
-                </p>
+                <p>{product.description}</p>
               </dd>
             </dl>
             <dl className="row">
               <dt className="col-sm-3">Model#</dt>
-              <dd className="col-sm-9">12345611</dd>
+              <dd className="col-sm-9">{product.modelNum}</dd>
 
               <dt className="col-sm-3">Color</dt>
-              <dd className="col-sm-9">Black and white </dd>
+              <dd className="col-sm-9">{product.color}</dd>
 
               <dt className="col-sm-3">Delivery</dt>
-              <dd className="col-sm-9">Russia, USA, and Europe </dd>
+              <dd className="col-sm-9">{product.delivery}</dd>
             </dl>
 
             <hr />
@@ -77,36 +106,7 @@ const ProductDetails = () => {
                 <dl className="dlist-inline">
                   <dt>Size: </dt>
                   <dd>
-                    <label className="form-check form-check-inline">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="inlineRadioOptions"
-                        id="inlineRadio2"
-                        value="option2"
-                      />
-                      <span className="form-check-label">SM</span>
-                    </label>
-                    <label className="form-check form-check-inline">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="inlineRadioOptions"
-                        id="inlineRadio2"
-                        value="option2"
-                      />
-                      <span className="form-check-label">MD</span>
-                    </label>
-                    <label className="form-check form-check-inline">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="inlineRadioOptions"
-                        id="inlineRadio2"
-                        value="option2"
-                      />
-                      <span className="form-check-label">XXL</span>
-                    </label>
+                    <span className="form-check-label">{`${product.size} cm`}</span>
                   </dd>
                 </dl>
               </div>
@@ -115,9 +115,17 @@ const ProductDetails = () => {
             <a href="#" className="btn  btn-primary">
               Buy now
             </a>
-            <a href="#" className="btn  btn-outline-primary">
-              <i className="fa fa-shopping-cart"></i> Add to cart
-            </a>
+            <button
+              onClick={toggleAddProduct}
+              className={
+                !isAdded()
+                  ? 'btn  btn-outline-primary'
+                  : 'btn  btn-outline-danger'
+              }
+            >
+              <i className="fa fa-shopping-cart"></i>{' '}
+              {!isAdded() ? 'Add to Cart' : 'Added to Cart'}
+            </button>
           </article>
         </aside>
       </div>
@@ -125,4 +133,10 @@ const ProductDetails = () => {
   );
 };
 
-export default ProductDetails;
+export default connect(
+  state => ({
+    productDetails: state.productDetailsReducer,
+    cart: state.cartReducer,
+  }),
+  { loadProduct, addProductToCart, removeProductFromCart },
+)(withRouter(ProductDetails));

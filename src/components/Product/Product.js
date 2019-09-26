@@ -24,7 +24,7 @@ const Product = ({
   liked,
   cart,
 }) => {
-  const { name, price, image, shortDescription, description } = product;
+  const { id, name, price, image, shortDescription, description } = product;
   const [isLoading, setIsLoading] = useState(true);
   const counter = useRef(0);
 
@@ -93,7 +93,7 @@ const Product = ({
                 : 'fa fa-heart text-danger like'
             }
           ></i>
-          <Link to="/product-details">
+          <Link to={`/product-details/${id}`}>
             <Card.Img
               className="product-img-obj-fit"
               variant="top"
