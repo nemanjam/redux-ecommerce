@@ -1,8 +1,8 @@
 import * as Types from '../types';
-import API from '../../services/api';
+import axios from 'axios';
 import { config } from '../../services/config';
 
-import { getProductPromise } from '../../fakebackend/data';
+import { getProductPromise } from '../../fakebackend/promiseData';
 
 export const loadProductInit = () => ({
   type: Types.LOAD_PRODUCT_INIT,
@@ -20,7 +20,11 @@ export const loadProductSuccess = product => ({
 
 export const loadProduct = (id, callback) => async (dispatch, getState) => {
   dispatch(loadProductInit());
-  const product = await getProductPromise(id);
+
+  const response = await axios.get(`/product/${id}`);
+  const product = response.data;
+
+  //const product = await getProductPromise(id);
   // console.log(product);
   dispatch(loadProductSuccess(product));
 

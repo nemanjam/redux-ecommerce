@@ -1,3 +1,6 @@
+//
+import './fakebackend/axiosData';
+
 import React, { useContext, useReducer } from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';

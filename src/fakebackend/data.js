@@ -51,10 +51,7 @@ const advertisements = _.times(10, index => ({
   time: faker.date.recent(),
 }));
 
-const getDataWithDelay = (data, delay = config.delay) =>
-  new Promise(resolveFn => setTimeout(resolveFn, delay, data));
-
-export const getProductsPromise = params => {
+export const getProductsData = params => {
   //params = { page: { index: 0, size: 15 }, filter: 'mepps', sort: {key:'price', direction:'asc'} };
   let products = getProducts();
 
@@ -78,9 +75,9 @@ export const getProductsPromise = params => {
     );
   }
 
-  return getDataWithDelay(products);
+  return products;
 };
-export const getProductPromise = id => {
+export const getProductData = id => {
   let products = getProducts();
   let product = {};
   id = parseInt(id);
@@ -88,20 +85,6 @@ export const getProductPromise = id => {
   if (!Number.isNaN(id) && products.length > id)
     product = products.find(product => product.id === id);
 
-  return getDataWithDelay(product);
+  return product;
 };
-export const getAdvertisementsPromise = () => getDataWithDelay(advertisements);
-
-/*
-export const timeout = (duration = 1500, shouldReject = false) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (shouldReject) {
-        reject(`rejected after ${duration}ms`);
-      } else {
-        resolve(`resolved after ${duration}ms`);
-      }
-    }, duration);
-  });
-};
-*/
+export const getAdvertisementsData = () => advertisements;

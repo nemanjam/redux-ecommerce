@@ -1,9 +1,11 @@
 import * as Types from '../types';
-import API from '../../services/api';
-import { config } from '../../services/config';
+import axios from 'axios';
+import qs from 'qs';
 
-import { getProductsPromise } from '../../fakebackend/data';
-import { getAdvertisementsPromise } from '../../fakebackend/data';
+import {
+  getProductsPromise,
+  getAdvertisementsPromise,
+} from '../../fakebackend/promiseData';
 import { insertAdvert } from '../../utils';
 
 let adverts = [];
@@ -36,9 +38,16 @@ export const loadProducts = (params, isLoadMoreRequest, callback) => async (
   dispatch(loadProductsInit(isLoadMoreRequest));
 
   if (!isLoadMoreRequest) {
-    adverts = await getAdvertisementsPromise();
+    const response = await axios.get('/adverts');
+    adverts = response.data;
+    //adverts = await getAdvertisementsPromise();
   }
-  const products = await getProductsPromise(params);
+
+  const strParams = qs.stringify(params);
+  const response = await axios.get(`/products?${strParams}`);
+  const products = response.data;
+
+  //const products = await getProductsPromise(params);
 
   // console.log(moreProducts.map(p => p[params.sort.key]));
   const productsWithAdverts = insertAdvert(products, adverts, 5);
