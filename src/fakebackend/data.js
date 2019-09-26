@@ -70,8 +70,8 @@ export const getProductsData = params => {
 
   if (params && 'page' in params) {
     products = products.slice(
-      params.page.index,
-      params.page.index + params.page.size,
+      parseInt(params.page.index),
+      parseInt(params.page.index) + parseInt(params.page.size),
     );
   }
 

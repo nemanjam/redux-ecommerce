@@ -47,7 +47,7 @@ export const loadProducts = (params, isLoadMoreRequest, callback) => async (
   const response = await axios.get(`/products?${strParams}`);
   const products = response.data;
 
-  //const products = await getProductsPromise(params);
+  // const products = await getProductsPromise(params);
 
   // console.log(moreProducts.map(p => p[params.sort.key]));
   const productsWithAdverts = insertAdvert(products, adverts, 5);

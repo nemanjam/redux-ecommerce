@@ -5,7 +5,6 @@ import qs from 'qs';
 import { config } from '../services/config';
 import { getProductData, getProductsData, getAdvertisementsData } from './data';
 
-// This sets the mock adapter on the default instance
 var mock = new MockAdapter(axios, { delayResponse: config.delay });
 
 mock.onGet(/\/products.*/gi).reply(function(config) {
