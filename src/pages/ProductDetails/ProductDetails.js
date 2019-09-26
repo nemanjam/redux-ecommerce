@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import _ from 'lodash';
+import ReactImageMagnify from 'react-image-magnify';
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -70,8 +71,32 @@ const ProductDetails = ({
         <aside className="col-sm-5 border-right">
           <div>
             <img
-              className="main-img"
+              className="main-img d-md-none"
               src={require(`../../static/products/${product.image}`)}
+            />
+            <ReactImageMagnify
+              {...{
+                smallImage: {
+                  alt: product.shortDescription,
+                  isFluidWidth: true,
+                  src: require(`../../static/products/${product.image}`),
+                },
+                largeImage: {
+                  src: require(`../../static/products/${product.image}`),
+                  width: 1200,
+                  height: 1200,
+                },
+                enlargedImageContainerStyle: {
+                  zIndex: 9,
+                  backgroundColor: 'white',
+                  objectFit: 'cover',
+                },
+                enlargedImageContainerDimensions: {
+                  width: '150%',
+                  height: '120%',
+                },
+                className: 'd-none d-md-block ',
+              }}
             />
           </div>
         </aside>

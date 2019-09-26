@@ -44,3 +44,13 @@ export const removeProductFromCart = product => (dispatch, getState) => {
     payload: products,
   });
 };
+
+export const removeProductsFromCart = product => (dispatch, getState) => {
+  let products = [...getState().cartReducer.cartProducts];
+  products = products.filter(p => p.product.id !== product.id);
+
+  dispatch({
+    type: Types.REMOVE_PRODUCTS_FROM_CART,
+    payload: products,
+  });
+};

@@ -7,6 +7,7 @@ import Row from 'react-bootstrap/Row';
 import {
   addProductToCart,
   removeProductFromCart,
+  removeProductsFromCart,
 } from '../../store/actions/cart';
 
 import './styles.css';
@@ -15,6 +16,7 @@ const Cart = ({
   cart: { cartProducts },
   addProductToCart,
   removeProductFromCart,
+  removeProductsFromCart,
 }) => {
   return (
     <Fragment>
@@ -25,12 +27,14 @@ const Cart = ({
       ) : (
         <Fragment>
           <div className="card shopping-cart">
-            <div className="card-header text-light">
+            <div className="card-header  text-primary">
               <i className="fa fa-shopping-cart" aria-hidden="true"></i>{' '}
               Shopping cart
-              <a href="" className="btn btn-outline-primary btn-sm pull-right">
-                Continiue shopping
-              </a>
+              <Link to={'/liked'}>
+                <button className="btn btn-outline-primary btn-sm pull-right">
+                  Go to liked products
+                </button>
+              </Link>
               <div className="clearfix"></div>
             </div>
             <div className="card-body">
@@ -80,7 +84,7 @@ const Cart = ({
                       </div>
                       <div className="col-2 col-sm-2 col-md-2 text-right">
                         <button
-                          onClick={() => removeProductFromCart(product)}
+                          onClick={() => removeProductsFromCart(product)}
                           type="button"
                           className="btn btn-outline-danger btn-xs"
                         >
@@ -94,9 +98,11 @@ const Cart = ({
               ))}
 
               <div className="pull-right">
-                <a href="" className="btn btn-outline-primary pull-right">
-                  Update shopping cart
-                </a>
+                <Link to={'/products'}>
+                  <button className="btn btn-outline-primary pull-right">
+                    Continue shopping
+                  </button>
+                </Link>
               </div>
             </div>
             <div className="card-footer">
@@ -145,5 +151,5 @@ export default connect(
   state => ({
     cart: state.cartReducer,
   }),
-  { addProductToCart, removeProductFromCart },
+  { addProductToCart, removeProductFromCart, removeProductsFromCart },
 )(Cart);
