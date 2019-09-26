@@ -53,7 +53,7 @@ const Products = ({
   }
 
   console.log(products);
-  if (isLoading) return <MySpinner key={0} text={'IsLoading...'} />;
+  if (isLoading) return <MySpinner key={0} text={'Loading...'} />;
 
   return (
     <Fragment>

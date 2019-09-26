@@ -87,6 +87,7 @@ const Home = () => {
           )}
         </ContainerDimensions>
       </Row>
+
       <Row className="my-5">
         <Col xs={6} className="mx-auto">
           <blockquote className="blockquote text-center">

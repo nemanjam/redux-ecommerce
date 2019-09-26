@@ -54,3 +54,5 @@ export const loadProducts = (params, isLoadMoreRequest, callback) => async (
   dispatch(loadProductsSuccess(isLoadMoreRequest, productsWithAdverts));
   if (callback) callback();
 };
+
+//snackbars, errors handling, css cards hoover

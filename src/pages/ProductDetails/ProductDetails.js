@@ -11,6 +11,7 @@ import MySpinner from '../../components/MySpinner';
 
 import { loadProduct } from '../../store/actions/productDetails';
 import { likeProduct, unlikeProduct } from '../../store/actions/liked';
+import { showToast, hideToast } from '../../store/actions/toast';
 
 import {
   addProductToCart,
@@ -29,17 +30,23 @@ const ProductDetails = ({
   unlikeProduct,
   cart,
   liked,
+  showToast,
+  hideToast,
 }) => {
   const { product, isLoading, error } = productDetails;
 
   useEffect(() => {
-    console.log('radi');
     loadProduct(match.params.id);
   }, []);
 
   function toggleLike() {
-    if (isLiked()) unlikeProduct(product);
-    else likeProduct(product);
+    if (!isLiked()) {
+      likeProduct(product);
+      showToast({ title: 'Notification', text: 'You liked the product.' });
+    } else {
+      unlikeProduct(product);
+      showToast({ title: 'Notification', text: 'You unliked the product.' });
+    }
   }
 
   function isLiked() {
@@ -50,9 +57,19 @@ const ProductDetails = ({
   }
 
   function toggleAddProduct() {
-    if (isAdded()) removeProductFromCart(product);
-    else addProductToCart(product);
-    //console.log(cart.cartProducts);
+    if (!isAdded()) {
+      addProductToCart(product);
+      showToast({
+        title: 'Notification',
+        text: 'You added product to the cart.',
+      });
+    } else {
+      removeProductFromCart(product);
+      showToast({
+        title: 'Notification',
+        text: 'You removed product from the cart.',
+      });
+    }
   }
 
   function isAdded() {
@@ -183,5 +200,7 @@ export default connect(
     removeProductFromCart,
     likeProduct,
     unlikeProduct,
+    showToast,
+    hideToast,
   },
 )(withRouter(ProductDetails));

@@ -36,7 +36,7 @@ const getProducts = () => {
       faker.address.country(),
     ].join(', '),
     description: faker.lorem.paragraph(),
-  })); //.sort((a, b) => 0.5 - Math.random());
+  })).sort((a, b) => 0.5 - Math.random());
   return products;
 };
 

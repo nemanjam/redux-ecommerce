@@ -3,6 +3,7 @@ import headerReducer from './headerReducer';
 import likedReducer from './likedReducer';
 import cartReducer from './cartReducer';
 import productDetailsReducer from './productDetailsReducer';
+import toastReducer from './toastReducer';
 import { combineReducers } from 'redux';
 
 const rootReducer = combineReducers({
@@ -10,7 +11,8 @@ const rootReducer = combineReducers({
   headerReducer,
   likedReducer,
   cartReducer,
-  productDetailsReducer
+  productDetailsReducer,
+  toastReducer,
 });
 
 export default rootReducer;

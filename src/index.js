@@ -24,6 +24,7 @@ import Cart from './pages/Cart';
 import Login from './pages/Login/Login';
 import ProductDetails from './pages/ProductDetails';
 import Header from './components/Header';
+import MyToast from './components/MyToast';
 import rootReducer from './store/reducers';
 
 import './index.css';
@@ -61,6 +62,7 @@ const Root = () => {
               <Redirect to="/home" />
             </Route>
           </Switch>
+          <MyToast />
         </Container>
       </Provider>
     </Router>

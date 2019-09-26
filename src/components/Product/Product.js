@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import './styles.css';
 
 import { likeProduct, unlikeProduct } from '../../store/actions/liked';
+import { showToast, hideToast } from '../../store/actions/toast';
 import {
   addProductToCart,
   removeProductFromCart,
@@ -23,6 +24,8 @@ const Product = ({
   removeProductFromCart,
   liked,
   cart,
+  showToast,
+  hideToast,
 }) => {
   const { id, name, price, image, shortDescription, description } = product;
   const [isLoading, setIsLoading] = useState(true);
@@ -36,8 +39,13 @@ const Product = ({
   }
 
   function toggleLike() {
-    if (isLiked()) unlikeProduct(product);
-    else likeProduct(product);
+    if (!isLiked()) {
+      likeProduct(product);
+      showToast({ title: 'Notification', text: 'You liked a product.' });
+    } else {
+      unlikeProduct(product);
+      showToast({ title: 'Notification', text: 'You unliked a product.' });
+    }
   }
 
   function isLiked() {
@@ -48,8 +56,16 @@ const Product = ({
   }
 
   function toggleAddProduct() {
-    if (isAdded()) removeProductFromCart(product);
-    else addProductToCart(product);
+    if (!isAdded()) {
+      addProductToCart(product);
+      showToast({ title: 'Notification', text: 'Product added to the cart.' });
+    } else {
+      removeProductFromCart(product);
+      showToast({
+        title: 'Notification',
+        text: 'Product removed from the cart.',
+      });
+    }
     //console.log(cart.cartProducts);
   }
 
@@ -134,5 +150,12 @@ export default connect(
     liked: state.likedReducer,
     cart: state.cartReducer,
   }),
-  { likeProduct, unlikeProduct, addProductToCart, removeProductFromCart },
+  {
+    likeProduct,
+    unlikeProduct,
+    addProductToCart,
+    removeProductFromCart,
+    showToast,
+    hideToast,
+  },
 )(Product);
