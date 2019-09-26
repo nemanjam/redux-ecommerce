@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef, Fragment } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import Row from 'react-bootstrap/Row';
 
@@ -37,13 +38,15 @@ const Cart = ({
                 <Fragment key={i}>
                   <div className="row">
                     <div className="col-12 col-sm-12 col-md-2 text-center">
-                      <img
-                        className="img-responsive cart-img-obj-fit"
-                        src={require(`../../static/products/${product.image}`)}
-                        alt="prewiew"
-                        width="120"
-                        height="80"
-                      />
+                      <Link to={`/product-details/${product.id}`}>
+                        <img
+                          className="img-responsive cart-img-obj-fit"
+                          src={require(`../../static/products/${product.image}`)}
+                          alt="prewiew"
+                          width="120"
+                          height="80"
+                        />
+                      </Link>
                     </div>
                     <div className="col-12 text-sm-center col-sm-12 text-md-left col-md-6">
                       <h4 className="product-name">{product.name}</h4>
@@ -66,16 +69,7 @@ const Cart = ({
                           >
                             +
                           </button>
-                          <input
-                            type="number"
-                            step="1"
-                            max="99"
-                            min="1"
-                            value={quantity}
-                            title="Qty"
-                            className="qty"
-                            size="4"
-                          />
+                          <span className="quantity-number">{quantity}</span>
                           <button
                             onClick={() => removeProductFromCart(product)}
                             className="minus"

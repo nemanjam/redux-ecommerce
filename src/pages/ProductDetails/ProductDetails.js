@@ -9,6 +9,8 @@ import Col from 'react-bootstrap/Col';
 import MySpinner from '../../components/MySpinner';
 
 import { loadProduct } from '../../store/actions/productDetails';
+import { likeProduct, unlikeProduct } from '../../store/actions/liked';
+
 import {
   addProductToCart,
   removeProductFromCart,
@@ -22,7 +24,10 @@ const ProductDetails = ({
   match,
   addProductToCart,
   removeProductFromCart,
+  likeProduct,
+  unlikeProduct,
   cart,
+  liked,
 }) => {
   const { product, isLoading, error } = productDetails;
 
@@ -30,6 +35,18 @@ const ProductDetails = ({
     console.log('radi');
     loadProduct(match.params.id);
   }, []);
+
+  function toggleLike() {
+    if (isLiked()) unlikeProduct(product);
+    else likeProduct(product);
+  }
+
+  function isLiked() {
+    const isLiked =
+      liked.likedProducts.length > 0 &&
+      liked.likedProducts.find(p => p.id === product.id);
+    return isLiked;
+  }
 
   function toggleAddProduct() {
     if (isAdded()) removeProductFromCart(product);
@@ -89,16 +106,9 @@ const ProductDetails = ({
             <div className="row">
               <div className="col-sm-5">
                 <dl className="dlist-inline">
-                  <dt>Quantity: </dt>
-                  <dd>
-                    <select
-                      className="form-control form-control-sm"
-                      style={{ width: 70 }}
-                    >
-                      <option> 1 </option>
-                      <option> 2 </option>
-                      <option> 3 </option>
-                    </select>
+                  <dt>Weight: </dt>
+                  <dd className="pl-2">
+                    <span className="form-check-label">{`${product.weight} g`}</span>
                   </dd>
                 </dl>
               </div>
@@ -112,9 +122,12 @@ const ProductDetails = ({
               </div>
             </div>
             <hr />
-            <a href="#" className="btn  btn-primary">
-              Buy now
-            </a>
+            <button
+              onClick={toggleLike}
+              className={isLiked() ? 'btn btn-success' : 'btn btn-primary'}
+            >
+              {isLiked() ? 'Liked' : 'Like it'}
+            </button>
             <button
               onClick={toggleAddProduct}
               className={
@@ -137,6 +150,13 @@ export default connect(
   state => ({
     productDetails: state.productDetailsReducer,
     cart: state.cartReducer,
+    liked: state.likedReducer,
   }),
-  { loadProduct, addProductToCart, removeProductFromCart },
+  {
+    loadProduct,
+    addProductToCart,
+    removeProductFromCart,
+    likeProduct,
+    unlikeProduct,
+  },
 )(withRouter(ProductDetails));
