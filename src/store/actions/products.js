@@ -38,13 +38,13 @@ export const loadProductsSuccess = (isLoadMoreRequest, products) => ({
   payload: products,
 });
 
-const errorHandler = (fn, dispatch) => {
-  return async (arg1, arg2, arg3) => {
+const errorHandler = (successfn, errorAction, dispatch) => {
+  return async (...args) => {
     try {
-      await fn(arg1, arg2, arg3);
+      await successfn(...args);
     } catch (error) {
       if (error.message) {
-        dispatch(loadProductsError(arg2, error.message));
+        dispatch(errorAction(args[1], error.message));
       }
     }
   };
@@ -56,24 +56,28 @@ export const loadProducts = (params, isLoadMoreRequest, callback) => async (
 ) => {
   dispatch(loadProductsInit(isLoadMoreRequest));
 
-  errorHandler(async (params, isLoadMoreRequest, callback) => {
-    if (!isLoadMoreRequest) {
-      const response = await axios.get('/adverts');
-      adverts = response.data;
-      //adverts = await getAdvertisementsPromise();
-    }
+  errorHandler(
+    async (params, isLoadMoreRequest, callback) => {
+      if (!isLoadMoreRequest) {
+        const response = await axios.get('/adverts');
+        adverts = response.data;
+        //adverts = await getAdvertisementsPromise();
+      }
 
-    const strParams = qs.stringify(params);
-    const response = await axios.get(`/products?${strParams}`);
-    const products = response.data;
+      const strParams = qs.stringify(params);
+      const response = await axios.get(`/products?${strParams}`);
+      const products = response.data;
 
-    // const products = await getProductsPromise(params);
+      // const products = await getProductsPromise(params);
 
-    // console.log(moreProducts.map(p => p[params.sort.key]));
-    const productsWithAdverts = insertAdvert(products, adverts, 5);
-    dispatch(loadProductsSuccess(isLoadMoreRequest, productsWithAdverts));
-    if (callback) callback();
-  }, dispatch)(params, isLoadMoreRequest, callback);
+      // console.log(moreProducts.map(p => p[params.sort.key]));
+      const productsWithAdverts = insertAdvert(products, adverts, 5);
+      dispatch(loadProductsSuccess(isLoadMoreRequest, productsWithAdverts));
+      if (callback) callback();
+    },
+    loadProductsError,
+    dispatch,
+  )(params, isLoadMoreRequest, callback);
 };
 
 //snackbars, errors handling, css cards hoover

@@ -18,13 +18,13 @@ export const loadProductSuccess = product => ({
   payload: product,
 });
 
-const errorHandler = (fn, dispatch) => {
-  return async (arg1, arg2) => {
+const errorHandler = (successfn, errorAction, dispatch) => {
+  return async (...args) => {
     try {
-      await fn(arg1, arg2);
+      await successfn(...args);
     } catch (error) {
       if (error.message) {
-        dispatch(loadProductError(error.message));
+        dispatch(errorAction(error.message));
       }
     }
   };
@@ -33,14 +33,18 @@ const errorHandler = (fn, dispatch) => {
 export const loadProduct = (id, callback) => async (dispatch, getState) => {
   dispatch(loadProductInit());
 
-  errorHandler(async (id, callback) => {
-    const response = await axios.get(`/product/${id}`);
-    const product = response.data;
+  errorHandler(
+    async (id, callback) => {
+      const response = await axios.get(`/product/${id}`);
+      const product = response.data;
 
-    //const product = await getProductPromise(id);
-    // console.log(product);
-    dispatch(loadProductSuccess(product));
+      //const product = await getProductPromise(id);
+      // console.log(product);
+      dispatch(loadProductSuccess(product));
 
-    if (callback) callback();
-  }, dispatch)(id, callback);
+      if (callback) callback();
+    },
+    loadProductError,
+    dispatch,
+  )(id, callback);
 };
