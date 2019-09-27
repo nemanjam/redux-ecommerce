@@ -20,6 +20,14 @@ export const addProductToCart = product => (dispatch, getState) => {
   }
 
   dispatch({
+    type: Types.SHOW_TOAST,
+    payload: {
+      title: 'Notification',
+      text: `You added the ${product.name} to the cart.`,
+    },
+  });
+
+  dispatch({
     type: Types.ADD_PRODUCT_TO_CART,
     payload: products,
   });
@@ -40,6 +48,14 @@ export const removeProductFromCart = product => (dispatch, getState) => {
   }
 
   dispatch({
+    type: Types.SHOW_TOAST,
+    payload: {
+      title: 'Notification',
+      text: `You removed the ${product.name} to the cart.`,
+    },
+  });
+
+  dispatch({
     type: Types.REMOVE_PRODUCT_FROM_CART,
     payload: products,
   });
@@ -48,6 +64,14 @@ export const removeProductFromCart = product => (dispatch, getState) => {
 export const removeProductsFromCart = product => (dispatch, getState) => {
   let products = [...getState().cartReducer.cartProducts];
   products = products.filter(p => p.product.id !== product.id);
+
+  dispatch({
+    type: Types.SHOW_TOAST,
+    payload: {
+      title: 'Notification',
+      text: `You removed all of the ${product.name}'s from the cart.`,
+    },
+  });
 
   dispatch({
     type: Types.REMOVE_PRODUCTS_FROM_CART,
