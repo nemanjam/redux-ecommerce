@@ -2,7 +2,7 @@ import * as Types from '../types';
 
 const initialState = {
   sortBy: { key: 'none', direction: 'asc' },
-  filterBy: 'none',
+  filterBy: { brand: 'none', color: 'none' },
   pageToLoad: 0,
 };
 
@@ -16,7 +16,7 @@ const headerReducer = (state = initialState, { type, payload }) => {
     case Types.SET_FILTER_BY:
       return {
         ...state,
-        filterBy: payload,
+        filterBy: { ...payload },
       };
     case Types.SET_PAGE_TO_LOAD:
       return {

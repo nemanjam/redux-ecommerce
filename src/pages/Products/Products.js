@@ -27,7 +27,7 @@ const Products = ({
       {
         page: { index: 0, size: config.pageSize },
         sort: { key: 'none', direction: 'asc' },
-        filter: 'none',
+        filter: { brand: 'none', color: 'none' },
       },
       false,
     );
@@ -42,8 +42,8 @@ const Products = ({
             index: (header.pageToLoad + 1) * config.pageSize,
             size: config.pageSize,
           },
-          sort: header.sortBy,
-          filter: header.filterBy,
+          sort: { ...header.sortBy },
+          filter: { ...header.filterBy },
         },
         true,
         () => setPageToLoad(header.pageToLoad + 1), // this way or race loop!!!

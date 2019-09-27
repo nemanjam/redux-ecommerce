@@ -29,13 +29,27 @@ const Header = ({
 }) => {
   const { pathname } = location;
 
-  function setFilterClick(filter) {
-    setFilterBy(filter);
+  function setBrandFilterClick(val) {
+    setFilterBy({ brand: val, color: header.filterBy.color });
     setPageToLoad(0);
     loadProducts(
       {
         page: { index: 0, size: config.pageSize },
-        filter,
+        filter: { brand: val, color: header.filterBy.color },
+        sort: { ...header.sortBy },
+      },
+      false,
+    );
+    window.scrollTo(0, 0);
+  }
+
+  function setColorFilterClick(val) {
+    setFilterBy({ color: val, brand: header.filterBy.brand });
+    setPageToLoad(0);
+    loadProducts(
+      {
+        page: { index: 0, size: config.pageSize },
+        filter: { color: val, brand: header.filterBy.brand },
         sort: { ...header.sortBy },
       },
       false,
@@ -49,7 +63,7 @@ const Header = ({
     loadProducts(
       {
         page: { index: 0, size: config.pageSize },
-        filter: header.filterBy,
+        filter: { ...header.filterBy },
         sort: { key, direction },
       },
       false,
@@ -85,7 +99,7 @@ const Header = ({
             </LinkContainer>
             <NavDropdown
               disabled={pathname !== '/products'}
-              title="Sort by"
+              title="Sort"
               id="collasible-nav-dropdown"
             >
               {[
@@ -111,21 +125,45 @@ const Header = ({
             </NavDropdown>
             <NavDropdown
               disabled={pathname !== '/products'}
-              title="Filter by"
+              title="Brand"
               id="collasible-nav-dropdown"
             >
               {[
                 { label: 'Rapala', filter: 'rapala' },
                 { label: 'Heddon', filter: 'heddon' },
-                { label: 'Cotton Cordel', filter: 'cottoncordel' },
+                { label: 'Cotton Cordell', filter: 'cottoncordel' },
                 { label: 'Rebel', filter: 'rebel' },
                 { label: 'Mepps', filter: 'mepps' },
                 { label: 'none', filter: 'none' },
               ].map((item, i) => (
                 <NavDropdown.Item
-                  active={header.filterBy === item.filter}
+                  active={header.filterBy.brand === item.filter}
                   key={i}
-                  onClick={() => setFilterClick(item.filter)}
+                  onClick={() => setBrandFilterClick(item.filter)}
+                >
+                  {item.label}
+                </NavDropdown.Item>
+              ))}
+            </NavDropdown>
+            <NavDropdown
+              disabled={pathname !== '/products'}
+              title="Color"
+              id="collasible-nav-dropdown"
+            >
+              {[
+                { label: 'red', filter: 'red' },
+                { label: 'blue', filter: 'blue' },
+                { label: 'green', filter: 'green' },
+                { label: 'yellow', filter: 'yellow' },
+                { label: 'brown', filter: 'brown' },
+                { label: 'black', filter: 'black' },
+                { label: 'white', filter: 'white' },
+                { label: 'any', filter: 'none' },
+              ].map((item, i) => (
+                <NavDropdown.Item
+                  active={header.filterBy.color === item.filter}
+                  key={i}
+                  onClick={() => setColorFilterClick(item.filter)}
                 >
                   {item.label}
                 </NavDropdown.Item>
