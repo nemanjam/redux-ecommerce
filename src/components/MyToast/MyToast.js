@@ -11,6 +11,7 @@ const MyToast = ({ toast: { show, title, text }, showToast, hideToast }) => {
         position: 'fixed',
         bottom: '5%',
         right: '2%',
+        zIndex: 3,
       }}
     >
       <Toast
