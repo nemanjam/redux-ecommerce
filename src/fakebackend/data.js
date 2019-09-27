@@ -144,7 +144,11 @@ const getProducts = () => {
         faker.address.country(),
         faker.address.country(),
       ].join(', '),
-      description: faker.lorem.paragraph(),
+      description:
+        faker.lorem
+          .paragraph()
+          .split('.', 2)
+          .join('.') + '.',
     };
   }).sort((a, b) => 0.5 - Math.random());
   return products;
@@ -155,7 +159,11 @@ const advertisements = _.times(10, index => ({
   isAdvert: true,
   name: faker.commerce.productName(),
   image: faker.image.business(),
-  description: faker.lorem.paragraph(),
+  description:
+    faker.lorem
+      .paragraph()
+      .split('.', 3)
+      .join('.') + '.',
   link1: faker.internet.url(),
   link2: faker.internet.url(),
   time: faker.date.recent(),

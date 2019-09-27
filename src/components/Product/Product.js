@@ -90,7 +90,7 @@ const Product = ({
         className="mb-3"
         style={{ display: isLoading ? 'none' : 'block' }}
       >
-        <Card>
+        <Card className="product-card">
           <i
             onClick={toggleLike}
             className={
@@ -101,7 +101,7 @@ const Product = ({
           ></i>
           <Link to={`/product-details/${id}`}>
             <Card.Img
-              className="product-img-obj-fit"
+              className="product-img"
               variant="top"
               src={require(`../../static/products/${image}`)}
               alt="Vans"
@@ -111,7 +111,7 @@ const Product = ({
           <Card.Body>
             <h4 className="card-title">{name}</h4>
             <h6 className="card-subtitle mb-2 text-muted">
-              Style: {shortDescription}
+              Description: {shortDescription}
             </h6>
             <Card.Text>{description}</Card.Text>
 
@@ -120,9 +120,9 @@ const Product = ({
                 <h5 className="mt-4">${price.toFixed(2)}</h5>
               </div>
               <Button
-                variant={!isAdded() ? 'primary' : 'danger'}
+                variant={!isAdded() ? 'outline-primary' : 'danger'}
                 onClick={toggleAddProduct}
-                className="mt-3"
+                className="add-to-cart mt-3"
               >
                 <i className="fa fa-shopping-cart"></i>{' '}
                 {!isAdded() ? 'Add to Cart' : 'Added to Cart'}
