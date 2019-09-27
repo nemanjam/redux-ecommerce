@@ -1,4 +1,5 @@
 import * as Types from '../types';
+import { showToast } from './toast';
 import axios from 'axios';
 import qs from 'qs';
 
@@ -17,12 +18,18 @@ export const loadProductsInit = isLoadMoreRequest => ({
     : Types.LOAD_PRODUCTS_INIT,
 });
 
-export const loadProductsError = (isLoadMoreRequest, error) => ({
-  type: isLoadMoreRequest
-    ? Types.LOAD_MORE_PRODUCTS_ERROR
-    : Types.LOAD_PRODUCTS_ERROR,
-  payload: error,
-});
+export const loadProductsError = (isLoadMoreRequest, error) => (
+  dispatch,
+  getState,
+) => {
+  dispatch(showToast({ title: 'Error', text: error }));
+  dispatch({
+    type: isLoadMoreRequest
+      ? Types.LOAD_MORE_PRODUCTS_ERROR
+      : Types.LOAD_PRODUCTS_ERROR,
+    payload: error,
+  });
+};
 
 export const loadProductsSuccess = (isLoadMoreRequest, products) => ({
   type: isLoadMoreRequest
@@ -37,22 +44,36 @@ export const loadProducts = (params, isLoadMoreRequest, callback) => async (
 ) => {
   dispatch(loadProductsInit(isLoadMoreRequest));
 
-  if (!isLoadMoreRequest) {
-    const response = await axios.get('/adverts');
-    adverts = response.data;
-    //adverts = await getAdvertisementsPromise();
+  try {
+    if (!isLoadMoreRequest) {
+      const response = await axios.get('/adverts');
+      adverts = response.data;
+      //adverts = await getAdvertisementsPromise();
+    }
+
+    const strParams = qs.stringify(params);
+    const response = await axios.get(`/products?${strParams}`);
+    const products = response.data;
+
+    // const products = await getProductsPromise(params);
+
+    // console.log(moreProducts.map(p => p[params.sort.key]));
+    const productsWithAdverts = insertAdvert(products, adverts, 5);
+    dispatch(loadProductsSuccess(isLoadMoreRequest, productsWithAdverts));
+    if (callback) callback();
+  } catch (error) {
+    if (error.message) {
+      dispatch(loadProductsError(isLoadMoreRequest, error.message));
+    }
   }
-
-  const strParams = qs.stringify(params);
-  const response = await axios.get(`/products?${strParams}`);
-  const products = response.data;
-
-  // const products = await getProductsPromise(params);
-
-  // console.log(moreProducts.map(p => p[params.sort.key]));
-  const productsWithAdverts = insertAdvert(products, adverts, 5);
-  dispatch(loadProductsSuccess(isLoadMoreRequest, productsWithAdverts));
-  if (callback) callback();
 };
 
 //snackbars, errors handling, css cards hoover
+/*
+// Error handler for async / await functions 
+const catchErrors = fn => {
+  return function(req, res, next) {
+    return fn(req, res, next).catch(next);
+  };
+};
+*/

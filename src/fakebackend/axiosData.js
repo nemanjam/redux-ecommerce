@@ -7,6 +7,7 @@ import { getProductData, getProductsData, getAdvertisementsData } from './data';
 
 var mock = new MockAdapter(axios, { delayResponse: config.delay });
 
+//.networkError();
 mock.onGet(/\/products.*/gi).reply(function(config) {
   //console.log(config);
   const query = config.url.replace('/products?', '');

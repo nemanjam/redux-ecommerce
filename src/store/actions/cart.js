@@ -1,5 +1,6 @@
 import * as Types from '../types';
 import { config } from '../../services/config';
+import { showToast } from './toast';
 
 export const addProductToCart = product => (dispatch, getState) => {
   const existing = getState().cartReducer.cartProducts.filter(
@@ -19,13 +20,12 @@ export const addProductToCart = product => (dispatch, getState) => {
     filtered.splice(index, 0, _product); // at index
   }
 
-  dispatch({
-    type: Types.SHOW_TOAST,
-    payload: {
+  dispatch(
+    showToast({
       title: 'Notification',
       text: `You added the ${product.name} to the cart.`,
-    },
-  });
+    }),
+  );
 
   dispatch({
     type: Types.ADD_PRODUCT_TO_CART,
@@ -47,13 +47,12 @@ export const removeProductFromCart = product => (dispatch, getState) => {
     _product.quantity--;
   }
 
-  dispatch({
-    type: Types.SHOW_TOAST,
-    payload: {
+  dispatch(
+    showToast({
       title: 'Notification',
       text: `You removed the ${product.name} to the cart.`,
-    },
-  });
+    }),
+  );
 
   dispatch({
     type: Types.REMOVE_PRODUCT_FROM_CART,
@@ -65,13 +64,12 @@ export const removeProductsFromCart = product => (dispatch, getState) => {
   let products = [...getState().cartReducer.cartProducts];
   products = products.filter(p => p.product.id !== product.id);
 
-  dispatch({
-    type: Types.SHOW_TOAST,
-    payload: {
+  dispatch(
+    showToast({
       title: 'Notification',
       text: `You removed all of the ${product.name}'s from the cart.`,
-    },
-  });
+    }),
+  );
 
   dispatch({
     type: Types.REMOVE_PRODUCTS_FROM_CART,

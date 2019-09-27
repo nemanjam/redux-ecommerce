@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, Fragment } from 'react';
 import { connect } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroller';
+import { Redirect } from 'react-router-dom';
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -16,7 +17,7 @@ import { setPageToLoad } from '../../store/actions/header';
 import { config } from '../../services/config';
 
 const Products = ({
-  products: { isLoading, products, hasMoreItems },
+  products: { isLoading, products, hasMoreItems, error },
   loadProducts,
   header,
   setPageToLoad,
@@ -52,7 +53,8 @@ const Products = ({
     }
   }
 
-  console.log(products);
+  //console.log(products);
+  if (error) return <Redirect to={'/error'} />;
   if (isLoading) return <MySpinner key={0} text={'Loading...'} />;
 
   return (
@@ -72,7 +74,7 @@ const Products = ({
           ),
         )}
       </InfiniteScroll>
-      {!hasMoreItems && (
+      {!error && !hasMoreItems && (
         <Row className="mb-3">
           <Col>
             <h4 className="text-center">No more products</h4>

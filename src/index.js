@@ -23,6 +23,7 @@ import Liked from './pages/Liked';
 import Cart from './pages/Cart';
 import Login from './pages/Login/Login';
 import ProductDetails from './pages/ProductDetails';
+import Error from './pages/Error';
 import Header from './components/Header';
 import MyToast from './components/MyToast';
 import rootReducer from './store/reducers';
@@ -58,6 +59,7 @@ const Root = () => {
             />
             <Route path="/cart" component={Cart} />
             <Route path="/login" component={Login} />
+            <Route path="/error" component={Error} />
             <Route exact path="/">
               <Redirect to="/home" />
             </Route>
