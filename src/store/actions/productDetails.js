@@ -18,10 +18,22 @@ export const loadProductSuccess = product => ({
   payload: product,
 });
 
+const errorHandler = (fn, dispatch) => {
+  return async (arg1, arg2) => {
+    try {
+      await fn(arg1, arg2);
+    } catch (error) {
+      if (error.message) {
+        dispatch(loadProductError(error.message));
+      }
+    }
+  };
+};
+
 export const loadProduct = (id, callback) => async (dispatch, getState) => {
   dispatch(loadProductInit());
 
-  try {
+  errorHandler(async (id, callback) => {
     const response = await axios.get(`/product/${id}`);
     const product = response.data;
 
@@ -30,9 +42,5 @@ export const loadProduct = (id, callback) => async (dispatch, getState) => {
     dispatch(loadProductSuccess(product));
 
     if (callback) callback();
-  } catch (error) {
-    if (error.message) {
-      dispatch(loadProductError(error.message));
-    }
-  }
+  }, dispatch)(id, callback);
 };

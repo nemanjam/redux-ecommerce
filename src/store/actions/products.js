@@ -38,13 +38,25 @@ export const loadProductsSuccess = (isLoadMoreRequest, products) => ({
   payload: products,
 });
 
+const errorHandler = (fn, dispatch) => {
+  return async (arg1, arg2, arg3) => {
+    try {
+      await fn(arg1, arg2, arg3);
+    } catch (error) {
+      if (error.message) {
+        dispatch(loadProductsError(arg2, error.message));
+      }
+    }
+  };
+};
+
 export const loadProducts = (params, isLoadMoreRequest, callback) => async (
   dispatch,
   getState,
 ) => {
   dispatch(loadProductsInit(isLoadMoreRequest));
 
-  try {
+  errorHandler(async (params, isLoadMoreRequest, callback) => {
     if (!isLoadMoreRequest) {
       const response = await axios.get('/adverts');
       adverts = response.data;
@@ -61,16 +73,14 @@ export const loadProducts = (params, isLoadMoreRequest, callback) => async (
     const productsWithAdverts = insertAdvert(products, adverts, 5);
     dispatch(loadProductsSuccess(isLoadMoreRequest, productsWithAdverts));
     if (callback) callback();
-  } catch (error) {
-    if (error.message) {
-      dispatch(loadProductsError(isLoadMoreRequest, error.message));
-    }
-  }
+  }, dispatch)(params, isLoadMoreRequest, callback);
 };
 
 //snackbars, errors handling, css cards hoover
+
+// Error handler for async / await functions
+
 /*
-// Error handler for async / await functions 
 const catchErrors = fn => {
   return function(req, res, next) {
     return fn(req, res, next).catch(next);
