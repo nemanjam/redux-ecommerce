@@ -1,11 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import GoogleLogin from 'react-google-login';
+import { connect } from 'react-redux';
 
 import * as BForm from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+
+import { config } from '../../services/config';
+import { setGoogleUser } from '../../store/actions/auth';
 
 import './styles.css';
 
@@ -50,12 +55,21 @@ const loginSchema = { ...registerSchema };
 delete loginSchema.name;
 delete loginSchema.repeatPassword;
 
-const Login = () => {
+const Login = ({ setGoogleUser }) => {
   const [isRegister, setIsRegister] = useState(false);
 
   function toggleRegisterClick() {
     setIsRegister(!isRegister);
   }
+
+  const responseGoogleSuccess = response => {
+    console.log(response);
+    setGoogleUser(response.profileObj);
+  };
+
+  const responseGoogleFail = response => {
+    console.log(response);
+  };
 
   return (
     <Row>
@@ -71,10 +85,25 @@ const Login = () => {
             </Button>
             <h4 className="card-title mb-4 mt-1">Sign in</h4>
             <p>
-              <Button variant="outline-primary" className="btn-block">
-                {' '}
-                <i className="fa fa-google"></i>   Login with Google
-              </Button>
+              <GoogleLogin
+                clientId={config.clientId}
+                render={renderProps => (
+                  <Button
+                    id="googleButton"
+                    variant="outline-primary"
+                    className="btn-block"
+                    onClick={renderProps.onClick}
+                    disabled={renderProps.disabled}
+                  >
+                    {' '}
+                    <i className="fa fa-google"></i>   Login with Google
+                  </Button>
+                )}
+                buttonText="Login"
+                onSuccess={responseGoogleSuccess}
+                onFailure={responseGoogleFail}
+                cookiePolicy={'single_host_origin'}
+              />
             </p>
             <hr />
 
@@ -223,7 +252,7 @@ const Login = () => {
                         </div>
                       </BForm.Row>
                     </BForm>
-                    <DisplayFormikState {...props} />
+                    {/* <DisplayFormikState {...props} /> */}
                   </>
                 );
               }}
@@ -235,4 +264,16 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default connect(
+  state => ({}),
+  { setGoogleUser },
+)(Login);
+/*
+profileObj:
+email: "api@gmail.com"
+familyName: "Kralc"
+givenName: "rko"
+googleId: "25350571"
+imageUrl: "https://lh6.googleusercontent.com/-6ZAIGkgvuaQ/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc9E5uex_lbFBctbj8KYQ6cLt5WLg/s96-c/photo.jpg"
+name: "rko Kral
+*/

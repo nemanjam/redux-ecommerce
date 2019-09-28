@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { withRouter } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
 import { connect } from 'react-redux';
@@ -9,13 +9,18 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Badge from 'react-bootstrap/Badge';
 
+import { GoogleLogout } from 'react-google-login';
+
 import {
   setSortBy,
   setFilterBy,
   setPageToLoad,
 } from '../../store/actions/header';
 import { loadProducts } from '../../store/actions/products';
+import { getGoogleUser, logOutGoogleUser } from '../../store/actions/auth';
 import { config } from '../../services/config';
+
+import './styles.css';
 
 const Header = ({
   location,
@@ -26,8 +31,15 @@ const Header = ({
   setPageToLoad,
   liked,
   cart,
+  auth,
+  getGoogleUser,
+  logOutGoogleUser,
 }) => {
   const { pathname } = location;
+
+  useEffect(() => {
+    getGoogleUser();
+  }, []);
 
   function setBrandFilterClick(val) {
     setFilterBy({ brand: val, color: header.filterBy.color });
@@ -76,6 +88,10 @@ const Header = ({
       .map(p => p.quantity)
       .reduce((a, b) => a + b, 0);
     return sum;
+  }
+
+  function logoutSuccess() {
+    logOutGoogleUser();
   }
 
   return (
@@ -191,9 +207,48 @@ const Header = ({
                 )}
               </Nav.Link>
             </LinkContainer>
-            <LinkContainer to="/login">
-              <Nav.Link>Login</Nav.Link>
-            </LinkContainer>
+            {!auth.googleUser ? (
+              <LinkContainer to="/login">
+                <Nav.Link>Login</Nav.Link>
+              </LinkContainer>
+            ) : (
+              <NavDropdown title="Loged in" id="basic-nav-dropdown">
+                <NavDropdown.Item>
+                  <div
+                    className="row"
+                    style={{ minWidth: '15rem', maxHeight: '4rem' }}
+                  >
+                    <div className="col-lg-3 col-2 img-container">
+                      <img
+                        src={auth.googleUser.imageUrl}
+                        className="user-img"
+                      />
+                    </div>
+                    <div className="col-lg-9 col-10 text-left">
+                      <p className="">
+                        <strong>{auth.googleUser.name}</strong>
+                      </p>
+                      <p className="small">{auth.googleUser.email}</p>
+                    </div>
+                  </div>
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+                <GoogleLogout
+                  clientId={config.clientId}
+                  buttonText="Logout"
+                  onLogoutSuccess={logoutSuccess}
+                  render={renderProps => (
+                    <NavDropdown.Item
+                      className="text-center"
+                      onClick={renderProps.onClick}
+                      disabled={renderProps.disabled}
+                    >
+                      Log out
+                    </NavDropdown.Item>
+                  )}
+                />
+              </NavDropdown>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
@@ -205,6 +260,14 @@ export default connect(
     header: state.headerReducer,
     liked: state.likedReducer,
     cart: state.cartReducer,
+    auth: state.authReducer,
   }),
-  { setSortBy, setFilterBy, setPageToLoad, loadProducts },
+  {
+    setSortBy,
+    setFilterBy,
+    setPageToLoad,
+    loadProducts,
+    getGoogleUser,
+    logOutGoogleUser,
+  },
 )(withRouter(Header));
