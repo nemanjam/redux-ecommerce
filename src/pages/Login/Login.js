@@ -11,6 +11,7 @@ import Button from 'react-bootstrap/Button';
 
 import { config } from '../../services/config';
 import { setGoogleUser } from '../../store/actions/auth';
+import { showToast } from '../../store/actions/toast';
 
 import './styles.css';
 
@@ -63,12 +64,11 @@ const Login = ({ setGoogleUser }) => {
   }
 
   const responseGoogleSuccess = response => {
-    console.log(response);
     setGoogleUser(response.profileObj);
   };
 
   const responseGoogleFail = response => {
-    console.log(response);
+    showToast({ title: 'Error', text: response.error });
   };
 
   return (

@@ -7,10 +7,14 @@ const initialState = {
 const authReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case Types.GOOGLE_AUTH_SUCCESS:
-    case Types.GET_GOOGLE_USER:
       return {
         ...state,
         googleUser: { ...payload },
+      };
+    case Types.GET_GOOGLE_USER:
+      return {
+        ...state,
+        googleUser: payload,
       };
     case Types.LOGOUT_GOOGLE_USER:
       return {
