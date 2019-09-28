@@ -5,6 +5,7 @@
 - Home, Products, Product Details, Liked, Cart, Login and Error pages
 - State management with Redux
 - Products pagination with infinite scroll
+- Insert Advertisements at every N products
 - Products sorting by price, weight, size asc and desc
 - Product filtering by brand and color
 - Ability to like the product (wishlist)

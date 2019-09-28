@@ -7,6 +7,7 @@ import {
   getProductsPromise,
   getAdvertisementsPromise,
 } from '../../fakebackend/promiseData';
+
 import { insertAdvert } from '../../utils';
 
 let adverts = [];

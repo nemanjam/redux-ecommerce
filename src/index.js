@@ -1,7 +1,4 @@
-//
-import './fakebackend/axiosData';
-
-import React, { useContext, useReducer } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import {
@@ -29,6 +26,7 @@ import MyToast from './components/MyToast';
 import rootReducer from './store/reducers';
 
 import './index.css';
+import './fakebackend/axiosData';
 
 const Root = () => {
   //
