@@ -7,6 +7,7 @@
         "axios-mock-adapter": "^1.17.0",
         "bootstrap": "^4.3.1",
         "faker": "^4.1.0",
+        "formik": "^1.5.8",
         "lodash": "^4.17.15",
         "moment": "^2.24.0",
         "qs": "^6.9.0",
@@ -21,7 +22,8 @@
         "react-router-dom": "^5.0.1",
         "react-scripts": "3.1.1",
         "redux": "^4.0.4",
-        "redux-thunk": "^2.3.0"
+        "redux-thunk": "^2.3.0",
+        "yup": "^0.27.0"
     },
     "scripts": {
         "start": "set PORT=3002 && react-scripts start",
