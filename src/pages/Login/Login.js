@@ -52,9 +52,16 @@ const registerSchema = Yup.object().shape({
     })
     .required('Required'),
 });
-const loginSchema = { ...registerSchema };
-delete loginSchema.name;
-delete loginSchema.repeatPassword;
+
+const loginSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('Invalid email')
+    .required('Required'),
+  password: Yup.string()
+    .min(2, 'Password must be 2 characters at minimum.')
+    .max(10, 'Password must be 10 characters at maximum.')
+    .required('Required'),
+});
 
 const Login = ({ setGoogleUser }) => {
   const [isRegister, setIsRegister] = useState(false);
@@ -141,7 +148,6 @@ const Login = ({ setGoogleUser }) => {
                   errors,
                   isSubmitting,
                 } = props;
-                console.log(touched);
                 return (
                   <>
                     <BForm noValidate onSubmit={handleSubmit}>
