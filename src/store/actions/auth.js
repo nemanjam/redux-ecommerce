@@ -8,7 +8,7 @@ export const setGoogleUser = googleUser => dispatch => {
   dispatch(
     showToast({
       title: 'Notification',
-      text: `Google user ${googleUser.name} successfuly logged in.`,
+      text: `Google user ${googleUser.name} successfully logged in.`,
     }),
   );
   dispatch({
@@ -32,7 +32,7 @@ export const logOutGoogleUser = () => dispatch => {
     dispatch(
       showToast({
         title: 'Notification',
-        text: `Google user ${googleUser.name} successfuly logged out.`,
+        text: `Google user ${googleUser.name} successfully logged out.`,
       }),
     );
     localStorage.removeItem('googleUser');
@@ -44,14 +44,14 @@ export const logOutGoogleUser = () => dispatch => {
 
 export const registerLocalUser = localUser => dispatch => {
   dispatch(logOutGoogleUser());
-  delete localUser.password;
+  // delete localUser.password;
   delete localUser.repeatPassword;
   localStorage.setItem('localUser', JSON.stringify(localUser));
 
   dispatch(
     showToast({
       title: 'Notification',
-      text: `Local user ${localUser.name} successfuly registered.`,
+      text: `Local user ${localUser.name} successfully registered.`,
     }),
   );
   dispatch({
@@ -82,7 +82,7 @@ export const loginLocalUser = _localUser => (dispatch, getState) => {
     dispatch(
       showToast({
         title: 'Notification',
-        text: `Local user ${localUser.email} successfuly logged in.`,
+        text: `Local user ${localUser.email} successfully logged in.`,
       }),
     );
   } else {
@@ -122,5 +122,13 @@ export const getLocalUser = () => {
   return {
     type: Types.GET_LOCAL_USER,
     payload: localUser,
+  };
+};
+
+export const redirectAfterLogin = callback => {
+  if (callback) callback();
+
+  return {
+    type: Types.REDIRECT_AFTER_LOGIN,
   };
 };

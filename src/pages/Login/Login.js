@@ -3,6 +3,7 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import GoogleLogin from 'react-google-login';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import * as BForm from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
@@ -14,6 +15,7 @@ import {
   setGoogleUser,
   registerLocalUser,
   loginLocalUser,
+  redirectAfterLogin,
 } from '../../store/actions/auth';
 import { showToast } from '../../store/actions/toast';
 
@@ -72,6 +74,8 @@ const Login = ({
   showToast,
   registerLocalUser,
   loginLocalUser,
+  redirectAfterLogin,
+  history,
 }) => {
   const [isRegister, setIsRegister] = useState(false);
   const formik = useRef(null);
@@ -88,6 +92,7 @@ const Login = ({
     if (formik.current) {
       formik.current.resetForm();
     }
+    redirectAfterLogin(() => history.push('/products'));
   };
 
   const responseGoogleFail = response => {
@@ -159,6 +164,7 @@ const Login = ({
                   else loginLocalUser(values);
                   actions.setSubmitting(false);
                   actions.resetForm();
+                  redirectAfterLogin(() => history.push('/products'));
                 }, 1000);
               }}
               onChange={e => console.log(e)}
@@ -303,8 +309,14 @@ const Login = ({
 
 export default connect(
   state => ({}),
-  { setGoogleUser, showToast, registerLocalUser, loginLocalUser },
-)(Login);
+  {
+    setGoogleUser,
+    showToast,
+    registerLocalUser,
+    loginLocalUser,
+    redirectAfterLogin,
+  },
+)(withRouter(Login));
 /*
 profileObj:
 email: "api@gmail.com"

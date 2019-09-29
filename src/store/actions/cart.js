@@ -50,7 +50,7 @@ export const removeProductFromCart = product => (dispatch, getState) => {
   dispatch(
     showToast({
       title: 'Notification',
-      text: `You removed the ${product.name} to the cart.`,
+      text: `You removed the ${product.name} from the cart.`,
     }),
   );
 

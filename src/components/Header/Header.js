@@ -230,7 +230,7 @@ const Header = ({
                 <Nav.Link>Login</Nav.Link>
               </LinkContainer>
             ) : (
-              <NavDropdown title="Loged in" id="basic-nav-dropdown">
+              <NavDropdown title="Logged in" id="basic-nav-dropdown">
                 <NavDropdown.Item>
                   <div
                     className="row"
