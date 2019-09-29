@@ -1,11 +1,11 @@
-# Eshop-page
+# Eshop page
 
 Simple ecommerce website made with React Hooks and Redux.
 
 ## Demo and Codesandbox
 
-Live demo is available here: <a href="https://lure-shop-react.herokuapp.com" style="font-size: 40px">Demo</a>
-Codesandbox is available here: <a href="https://codesandbox.io/s/github/nemanjam/eshop-page" style="font-size: 40px">Codesandbox</a>
+- Live demo is available here: **[Demo](https://lure-shop-react.herokuapp.com)**
+- Codesandbox is available here: **[Codesandbox](https://codesandbox.io/s/github/nemanjam/eshop-page)**
 
 ## Features
 
