@@ -1,5 +1,12 @@
 # Eshop-page
 
+Simple ecommerce website made with React Hooks and Redux.
+
+## Demo and Codesandbox
+
+Live demo is available here: <a href="https://lure-shop-react.herokuapp.com" style="font-size: 40px">Demo</a>
+Codesandbox is available here: <a href="https://codesandbox.io/s/github/nemanjam/eshop-page" style="font-size: 40px">Codesandbox</a>
+
 ## Features
 
 - Home, Products, Product Details, Liked, Cart, Login, Profile and Error pages
@@ -25,7 +32,7 @@
 
 ## Libraries used
 
-- React with hooks, Redux, Redux Thunk
+- React with Hooks, Redux, Redux Thunk
 - React Bootstrap with Cosmo theme
 - React Infinite Scroller, React Image Magnify, React Google Login, React Container Dimensions
 - Axios, Axios Mock Adapter, Formik, Faker
@@ -34,3 +41,19 @@
 
 - `npm install`
 - `npm run start` app wil be loaded on `http://localhost:3002`
+
+## Screenshots
+
+![Screenshot1](/screenshots/Screenshot_1.png)
+
+![Screenshot2](/screenshots/Screenshot_2.png)
+
+![Screenshot3](/screenshots/Screenshot_3.png)
+
+![Screenshot4](/screenshots/Screenshot_4.png)
+
+![Screenshot5](/screenshots/Screenshot_5.png)
+
+![Screenshot6](/screenshots/Screenshot_6.png)
+
+![Screenshot7](/screenshots/Screenshot_7.png)
