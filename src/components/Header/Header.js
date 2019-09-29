@@ -17,7 +17,12 @@ import {
   setPageToLoad,
 } from '../../store/actions/header';
 import { loadProducts } from '../../store/actions/products';
-import { getGoogleUser, logOutGoogleUser } from '../../store/actions/auth';
+import {
+  getGoogleUser,
+  logOutGoogleUser,
+  getLocalUser,
+  logoutLocalUser,
+} from '../../store/actions/auth';
 import { config } from '../../services/config';
 
 import './styles.css';
@@ -34,11 +39,14 @@ const Header = ({
   auth,
   getGoogleUser,
   logOutGoogleUser,
+  getLocalUser,
+  logoutLocalUser,
 }) => {
   const { pathname } = location;
 
   useEffect(() => {
     getGoogleUser();
+    getLocalUser();
   }, []);
 
   function setBrandFilterClick(val) {
@@ -92,6 +100,16 @@ const Header = ({
 
   function logoutSuccess() {
     logOutGoogleUser();
+  }
+
+  function logoutLocalUserClick() {
+    logoutLocalUser();
+  }
+
+  function getCurrentUser() {
+    let user = null;
+    user = auth.googleUser ? 'google' : auth.localUser ? 'local' : null;
+    return user;
   }
 
   return (
@@ -207,7 +225,7 @@ const Header = ({
                 )}
               </Nav.Link>
             </LinkContainer>
-            {!auth.googleUser ? (
+            {!getCurrentUser() ? (
               <LinkContainer to="/login">
                 <Nav.Link>Login</Nav.Link>
               </LinkContainer>
@@ -220,33 +238,53 @@ const Header = ({
                   >
                     <div className="col-lg-3 col-2 img-container">
                       <img
-                        src={auth.googleUser.imageUrl}
+                        src={
+                          getCurrentUser() === 'google'
+                            ? auth.googleUser.imageUrl
+                            : require(`../../static/products/mepps1.jpg`)
+                        }
                         className="user-img"
                       />
                     </div>
                     <div className="col-lg-9 col-10 text-left">
                       <p className="">
-                        <strong>{auth.googleUser.name}</strong>
+                        <strong>
+                          {getCurrentUser() === 'google'
+                            ? auth.googleUser.name
+                            : auth.localUser.name}
+                        </strong>
                       </p>
-                      <p className="small">{auth.googleUser.email}</p>
+                      <p className="small">
+                        {getCurrentUser() === 'google'
+                          ? auth.googleUser.email
+                          : auth.localUser.email}
+                      </p>
                     </div>
                   </div>
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
-                <GoogleLogout
-                  clientId={config.clientId}
-                  buttonText="Logout"
-                  onLogoutSuccess={logoutSuccess}
-                  render={renderProps => (
-                    <NavDropdown.Item
-                      className="text-center"
-                      onClick={renderProps.onClick}
-                      disabled={renderProps.disabled}
-                    >
-                      Log out
-                    </NavDropdown.Item>
-                  )}
-                />
+                {getCurrentUser() === 'google' ? (
+                  <GoogleLogout
+                    clientId={config.clientId}
+                    buttonText="Logout"
+                    onLogoutSuccess={logoutSuccess}
+                    render={renderProps => (
+                      <NavDropdown.Item
+                        className="text-center"
+                        onClick={renderProps.onClick}
+                      >
+                        Google log out
+                      </NavDropdown.Item>
+                    )}
+                  />
+                ) : (
+                  <NavDropdown.Item
+                    className="text-center"
+                    onClick={logoutLocalUserClick}
+                  >
+                    Local log out
+                  </NavDropdown.Item>
+                )}
               </NavDropdown>
             )}
           </Nav>
@@ -269,5 +307,7 @@ export default connect(
     loadProducts,
     getGoogleUser,
     logOutGoogleUser,
+    getLocalUser,
+    logoutLocalUser,
   },
 )(withRouter(Header));

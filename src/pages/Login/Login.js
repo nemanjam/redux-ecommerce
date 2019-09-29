@@ -10,7 +10,11 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 
 import { config } from '../../services/config';
-import { setGoogleUser } from '../../store/actions/auth';
+import {
+  setGoogleUser,
+  registerLocalUser,
+  loginLocalUser,
+} from '../../store/actions/auth';
 import { showToast } from '../../store/actions/toast';
 
 import './styles.css';
@@ -63,19 +67,37 @@ const loginSchema = Yup.object().shape({
     .required('Required'),
 });
 
-const Login = ({ setGoogleUser }) => {
+const Login = ({
+  setGoogleUser,
+  showToast,
+  registerLocalUser,
+  loginLocalUser,
+}) => {
   const [isRegister, setIsRegister] = useState(false);
+  const formik = useRef(null);
 
   function toggleRegisterClick() {
     setIsRegister(!isRegister);
+    if (formik.current) {
+      formik.current.resetForm();
+    }
   }
 
   const responseGoogleSuccess = response => {
     setGoogleUser(response.profileObj);
+    if (formik.current) {
+      formik.current.resetForm();
+    }
   };
 
   const responseGoogleFail = response => {
-    showToast({ title: 'Error', text: response.error });
+    showToast({
+      title: 'Error',
+      text: `Error loging in with Google: ${response.error}.`,
+    });
+    if (formik.current) {
+      formik.current.resetForm();
+    }
   };
 
   return (
@@ -115,6 +137,7 @@ const Login = ({ setGoogleUser }) => {
             <hr />
 
             <Formik
+              ref={formik}
               initialValues={
                 isRegister
                   ? {
@@ -131,7 +154,9 @@ const Login = ({ setGoogleUser }) => {
               validationSchema={isRegister ? registerSchema : loginSchema}
               onSubmit={(values, actions) => {
                 setTimeout(() => {
-                  alert(JSON.stringify(values, null, 2));
+                  // alert(JSON.stringify(values, null, 2));
+                  if ('name' in values) registerLocalUser(values);
+                  else loginLocalUser(values);
                   actions.setSubmitting(false);
                   actions.resetForm();
                 }, 1000);
@@ -257,6 +282,12 @@ const Login = ({ setGoogleUser }) => {
                           </a>
                         </div>
                       </BForm.Row>
+                      <BForm.Row>
+                        <div className="col-12 text-center small">
+                          <p>Test email: default@gmail.com</p>
+                          <p>Test password: password</p>
+                        </div>
+                      </BForm.Row>
                     </BForm>
                     {/* <DisplayFormikState {...props} /> */}
                   </>
@@ -272,7 +303,7 @@ const Login = ({ setGoogleUser }) => {
 
 export default connect(
   state => ({}),
-  { setGoogleUser },
+  { setGoogleUser, showToast, registerLocalUser, loginLocalUser },
 )(Login);
 /*
 profileObj:

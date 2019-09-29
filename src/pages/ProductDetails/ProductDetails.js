@@ -84,7 +84,7 @@ const ProductDetails = ({
 
   //console.log(productDetails);
   return (
-    !_.isEmpty(product) && (
+    product && (
       <div className="card mb-3">
         <div className="row no-gutters">
           <aside className="col-sm-5 border-right">

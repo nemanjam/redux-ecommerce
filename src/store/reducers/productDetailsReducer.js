@@ -4,7 +4,7 @@ import { config } from '../../services/config';
 const initialState = {
   isLoading: false,
   error: null,
-  product: {},
+  product: null,
 };
 
 const productDetailsReducer = (state = initialState, { type, payload }) => {
