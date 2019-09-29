@@ -57,3 +57,5 @@ Simple ecommerce website made with React Hooks and Redux.
 ![Screenshot6](/screenshots/Screenshot_6.png)
 
 ![Screenshot7](/screenshots/Screenshot_7.png)
+
+![Screenshot8](/screenshots/Screenshot_8.png)
