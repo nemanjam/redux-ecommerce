@@ -18,11 +18,13 @@ import Home from './pages/Home';
 import Products from './pages/Products';
 import Liked from './pages/Liked';
 import Cart from './pages/Cart';
-import Login from './pages/Login/Login';
+import Login from './pages/Login';
+import Profile from './pages/Profile';
 import ProductDetails from './pages/ProductDetails';
 import Error from './pages/Error';
 import Header from './components/Header';
 import MyToast from './components/MyToast';
+import PrivateRoute from './components/PrivateRoute';
 import rootReducer from './store/reducers';
 
 import './index.css';
@@ -57,10 +59,12 @@ const Root = () => {
             />
             <Route path="/cart" component={Cart} />
             <Route path="/login" component={Login} />
+            <PrivateRoute path="/profile" component={Profile} />
             <Route path="/error" component={Error} />
             <Route exact path="/">
               <Redirect to="/home" />
             </Route>
+            <Redirect to="/error" />
           </Switch>
           <MyToast />
         </Container>

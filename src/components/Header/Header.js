@@ -282,21 +282,37 @@ const Header = ({
                     buttonText="Logout"
                     onLogoutSuccess={logoutSuccess}
                     render={renderProps => (
-                      <NavDropdown.Item
-                        className="text-center"
-                        onClick={renderProps.onClick}
-                      >
-                        Google log out
-                      </NavDropdown.Item>
+                      <>
+                        <LinkContainer to="/profile">
+                          <NavDropdown.Item className="text-center">
+                            Profile
+                          </NavDropdown.Item>
+                        </LinkContainer>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item
+                          className="text-center"
+                          onClick={renderProps.onClick}
+                        >
+                          Google log out
+                        </NavDropdown.Item>
+                      </>
                     )}
                   />
                 ) : (
-                  <NavDropdown.Item
-                    className="text-center"
-                    onClick={logoutLocalUserClick}
-                  >
-                    Local log out
-                  </NavDropdown.Item>
+                  <>
+                    <LinkContainer to="/profile">
+                      <NavDropdown.Item className="text-center">
+                        Profile
+                      </NavDropdown.Item>
+                    </LinkContainer>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item
+                      className="text-center"
+                      onClick={logoutLocalUserClick}
+                    >
+                      Local log out
+                    </NavDropdown.Item>
+                  </>
                 )}
               </NavDropdown>
             )}
