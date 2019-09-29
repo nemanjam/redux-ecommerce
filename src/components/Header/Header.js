@@ -126,10 +126,14 @@ const Header = ({
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto" activeKey={pathname}>
             <LinkContainer to="/home">
-              <Nav.Link>Home</Nav.Link>
+              <Nav.Link>
+                <i className="fa fa-home"></i> Home
+              </Nav.Link>
             </LinkContainer>
             <LinkContainer to="/products">
-              <Nav.Link>Products</Nav.Link>
+              <Nav.Link>
+                <i className="fa fa-product-hunt"></i> Products
+              </Nav.Link>
             </LinkContainer>
             <NavDropdown
               disabled={pathname !== '/products'}
@@ -205,7 +209,7 @@ const Header = ({
             </NavDropdown>
             <LinkContainer to="/liked">
               <Nav.Link>
-                Liked{' '}
+                <i className="fa fa-heart"></i> Liked{' '}
                 {liked.likedProducts.length > 0 && (
                   <Badge pill variant="light">
                     {liked.likedProducts.length}
@@ -217,7 +221,7 @@ const Header = ({
           <Nav activeKey={pathname}>
             <LinkContainer to="/cart">
               <Nav.Link>
-                Cart <i className="fa fa-shopping-cart"></i>{' '}
+                <i className="fa fa-shopping-cart"></i> Cart{' '}
                 {calcCartLength() > 0 && (
                   <Badge pill variant="danger">
                     {calcCartLength()}
@@ -227,10 +231,19 @@ const Header = ({
             </LinkContainer>
             {!getCurrentUser() ? (
               <LinkContainer to="/login">
-                <Nav.Link>Login</Nav.Link>
+                <Nav.Link>
+                  <i className="fa fa-sign-in"></i> Log in
+                </Nav.Link>
               </LinkContainer>
             ) : (
-              <NavDropdown title="Logged in" id="basic-nav-dropdown">
+              <NavDropdown
+                title={
+                  <>
+                    <i className="fa fa-user"></i> <span>Logged in</span>
+                  </>
+                }
+                id="basic-nav-dropdown"
+              >
                 <NavDropdown.Item>
                   <div
                     className="row"
