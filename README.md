@@ -59,3 +59,19 @@ Simple ecommerce website made with React Hooks and Redux.
 ![Screenshot7](/screenshots/Screenshot_7.png)
 
 ![Screenshot8](/screenshots/Screenshot_8.png)
+
+## Github pages deployment
+
+```bash
+# must use HashRouter
+# set "homepage": "/eshop-page/#", in package.json
+
+# must have in .env
+SKIP_PREFLIGHT_CHECK=true
+
+# must have this env var in terminal
+export NODE_OPTIONS=--openssl-legacy-provider
+
+# redeploy
+npm run deploy
+```
