@@ -1,5 +1,5 @@
 export const config = {
-  baseURL: 'https://lure-shop-react.herokuapp.com',
+  baseURL: 'https://nemanjam.github.io/eshop-page',
   products: '/products',
   pageSize: 10,
   advertIndex: 5,
