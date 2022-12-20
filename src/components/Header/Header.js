@@ -172,7 +172,7 @@ const Header = ({
                 { label: 'Cotton Cordell', filter: 'cottoncordel' },
                 { label: 'Rebel', filter: 'rebel' },
                 { label: 'Mepps', filter: 'mepps' },
-                { label: 'none', filter: 'none' },
+                { label: 'any', filter: 'none' },
               ].map((item, i) => (
                 <NavDropdown.Item
                   active={header.filterBy.brand === item.filter}
