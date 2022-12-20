@@ -121,7 +121,7 @@ const Header = ({
       fixed="top"
     >
       <Container>
-        <Navbar.Brand href="/home">Lure shop</Navbar.Brand>
+        <Navbar.Brand href="#/home">Lure shop</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto" activeKey={pathname}>
