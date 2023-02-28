@@ -1,11 +1,11 @@
-# Eshop page
+# Redux Ecommerce
 
 Simple ecommerce website made with React Hooks and Redux.
 
 ## Demo and Codesandbox
 
-- Live demo is available here: **[Demo](https://nemanjam.github.io/eshop-page)**
-- Codesandbox is available here: **[Codesandbox](https://codesandbox.io/s/github/nemanjam/eshop-page)**
+- Live demo is available here: **[Demo](https://nemanjam.github.io/redux-ecommerce)**
+- Codesandbox is available here: **[Codesandbox](https://codesandbox.io/s/github/nemanjam/redux-ecommerce)**
 
 ## Features
 
@@ -64,7 +64,7 @@ Simple ecommerce website made with React Hooks and Redux.
 
 ```bash
 # must use HashRouter
-# set "homepage": "/eshop-page/#", in package.json
+# set "homepage": "/redux-ecommerce/#", in package.json
 
 # must have in .env
 SKIP_PREFLIGHT_CHECK=true

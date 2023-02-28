@@ -1,8 +1,8 @@
 {
-    "name": "eshop-page",
+    "name": "redux-ecommerce",
     "version": "0.1.0",
     "private": true,
-    "homepage": "/eshop-page/#",
+    "homepage": "/redux-ecommerce/#",
     "dependencies": {
         "axios": "^0.19.0",
         "axios-mock-adapter": "^1.17.0",
