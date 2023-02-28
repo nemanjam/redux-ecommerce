@@ -4,7 +4,7 @@
     "private": true,
     "homepage": "/redux-ecommerce/#",
     "dependencies": {
-        "axios": "^0.19.0",
+        "axios": "^0.21.2",
         "axios-mock-adapter": "^1.17.0",
         "bootstrap": "^4.3.1",
         "faker": "^4.1.0",
